@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import java.util.Date;
 
 // TODO configure it to be initialized only when specific profile is used
 
@@ -21,16 +22,19 @@ public class ClientInitializer implements ApplicationListener<ContextRefreshedEv
 
     private void init(){
         Client c1 = new Client();
-        c1.setUsername("user1");
+        c1.setEmail("user1@email.com");
         c1.setPassword("password1");
+        c1.setBirthDate(new Date());
 
         Client c2 = new Client();
-        c2.setUsername("user2");
+        c2.setEmail("user2@email.com");
         c2.setPassword("password2");
+        c2.setBirthDate(new Date());
 
         Client c3 = new Client();
-        c3.setUsername("user3");
+        c3.setEmail("user3@email.com");
         c3.setPassword("password3");
+        c3.setBirthDate(new Date());
 
         clientRepository.saveAll(Lists.newArrayList(c1, c2, c3));
     }
