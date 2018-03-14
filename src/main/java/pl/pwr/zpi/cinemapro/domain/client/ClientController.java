@@ -1,8 +1,12 @@
-package pl.pwr.zpi.cinemapro.client;
+package pl.pwr.zpi.cinemapro.domain.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.pwr.zpi.cinemapro.common.util.DTO;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,12 +22,13 @@ public class ClientController {
         return clientService.findAll();
     }
 
-    @RequestMapping(value = "/post/registerClient", method = RequestMethod.POST)
-    public String registerClient(@Valid @RequestBody Client client, BindingResult result) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseEntity registerClient(@Valid @RequestBody @DTO(ClientForm.class) Client client, BindingResult result) {
         if (result.hasErrors()) {
-            return "error";
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        // TODO handle unique constraint violation exception
         clientService.save(client);
-        return "no error";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

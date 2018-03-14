@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.client;
+package pl.pwr.zpi.cinemapro.domain.client;
 
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;

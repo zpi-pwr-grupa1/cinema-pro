@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.client;
+package pl.pwr.zpi.cinemapro.domain.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
