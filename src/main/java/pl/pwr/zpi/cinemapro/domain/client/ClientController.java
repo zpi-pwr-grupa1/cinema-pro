@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 
 import javax.validation.Valid;
@@ -27,8 +28,12 @@ public class ClientController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        // TODO handle unique constraint violation exception
-        clientService.save(client);
+            clientService.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void constraintViolation(){
     }
 }
