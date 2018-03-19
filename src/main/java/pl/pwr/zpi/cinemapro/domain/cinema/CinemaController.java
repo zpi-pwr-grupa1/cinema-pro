@@ -24,6 +24,7 @@ public class CinemaController {
         return cinemaService.findAll();
     }
 
+    //TODO: Change ClientFrom.class to CinemaForm.class
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerCinema(@Valid @RequestBody @DTO(ClientForm.class) Cinema cinema, BindingResult result) {
         if (result.hasErrors()) {

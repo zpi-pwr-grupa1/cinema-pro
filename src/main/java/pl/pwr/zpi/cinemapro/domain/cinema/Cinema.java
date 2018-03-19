@@ -30,6 +30,7 @@ public class Cinema {
     
     //Dodatkowa wartość weryfikująca wyświetlanie kina dla obszarów innych niż te dostępne dla Administratora
     //NIe wiem czy w ten sposób deklaruję domyślną wartość jakby ktoś mógł potwierdzić
+    //TODO: jak doczytałem to domyślną wartość ustawia się za pomocą @Value np. @Value(false)
     @Column(nullable = false)
     private boolean visible = true;
 
