@@ -1,6 +1,5 @@
 package pl.pwr.zpi.cinemapro.domain.cinema;
 
-import pl.pwr.zpi.cinemapro.domain.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,13 @@ public class CinemaController {
         return cinemaService.findAll();
     }
 
-    //TODO: Change ClientFrom.class to CinemaForm.class
+    @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
+    public List<Cinema> getVisibleCinemas() {
+        return cinemaService.findAllVisible();
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerCinema(@Valid @RequestBody @DTO(ClientForm.class) Cinema cinema, BindingResult result) {
+    public ResponseEntity registerCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }

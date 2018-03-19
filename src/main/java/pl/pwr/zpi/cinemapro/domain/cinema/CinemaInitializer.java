@@ -16,7 +16,7 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        //init();
+        init();
     }
 
     private void init(){
@@ -24,13 +24,15 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c1.setAddress("Wroclaw, Grabiszynska");
         c1.setDescription("Jakis opis");
         c1.setTelephone("710000000");
+        c1.setEmail("email@email.com");
         c1.setVisible(true);
 
-        Cinema c1 = new Cinema();
-        c1.setAddress("Wroclaw, Legnicka");
-        c1.setDescription("Test description");
-        c1.setTelephone("711112223");
-        c1.setVisible(false);
+        Cinema c2 = new Cinema();
+        c2.setAddress("Wroclaw, Legnicka");
+        c2.setDescription("Test description");
+        c2.setTelephone("71111222");
+        c2.setEmail("email2@email.com");
+        c2.setVisible(false);
 
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2));
     }
