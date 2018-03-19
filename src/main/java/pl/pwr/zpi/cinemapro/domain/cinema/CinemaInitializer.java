@@ -26,7 +26,13 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c1.setTelephone("710000000");
         c1.setVisible(true);
 
-        cinemaRepository.saveAll(Lists.newArrayList(c1));
+        Cinema c1 = new Cinema();
+        c1.setAddress("Wroclaw, Legnicka");
+        c1.setDescription("Test description");
+        c1.setTelephone("711112223");
+        c1.setVisible(false);
+
+        cinemaRepository.saveAll(Lists.newArrayList(c1, c2));
     }
 
 }
