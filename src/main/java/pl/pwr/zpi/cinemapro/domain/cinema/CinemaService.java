@@ -23,4 +23,9 @@ public class CinemaService {
         return cinemaRepository.save(cinema);
     }
 
+    public void setNotVisible(Cinema cinema) {
+        cinema.setVisible(false);
+        cinemaRepository.save(cinema);
+    }
+
 }
