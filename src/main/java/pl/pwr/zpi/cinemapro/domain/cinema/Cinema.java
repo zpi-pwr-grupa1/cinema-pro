@@ -4,6 +4,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table
@@ -14,9 +15,22 @@ public class Cinema {
     @GeneratedValue
     private UUID id;
 
-    //Pytanie: czy nie lepiej rozbić adresu na Miasto, ulicę, numer i kod pocztowy(ułatwia przeszukiwanie i wypisywanie informacji)
-    @Column( nullable = false)
-    private String address;
+    //Adres rozbity:
+    //nazwa ulicy(street)
+    @Column(nullable = false)
+    private String street;
+    
+    //numer ulicy(streetNumber)[String bo może być np. 27-29 albo 3a]
+    @Column(nullable = false)
+    private String streetNumber;
+    
+    //kod pocztowy(postCode)[String bo zapis np. 22-324]
+    @Column(nullable = false)
+    private String postCode;
+    
+    //miasto(city)
+    @Column(nullable = false)
+    private String city;
 
     @Column(nullable = false)
     private String telephone;
@@ -28,13 +42,11 @@ public class Cinema {
     @Column(unique = true, nullable = false)
     private String email;
     
-    //Dodatkowa wartość weryfikująca wyświetlanie kina dla obszarów innych niż te dostępne dla Administratora
-    //NIe wiem czy w ten sposób deklaruję domyślną wartość jakby ktoś mógł potwierdzić
-    //TODO: jak doczytałem to domyślną wartość ustawia się za pomocą @Value np. @Value(false)
     @Column(nullable = false)
-    private boolean visible = true;
+    @Value("true")
+    private boolean visible;
 
-    
-    //Ups teraz wyszło w jaki sposób będziemy przechowywać obrazek w "Galerii"
-    //Wszelkie internetowe poradniki odradzają przechowywania plików wewnątrz tabeli
+    //URL do obrazku głównego(nie cała galeria, w wypadku galerii trzeba by utworzyć nową encję Galeria(Kino, URL)
+    @Column(nullable = true)
+    private String imgUrl;
 }
