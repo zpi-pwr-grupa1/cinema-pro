@@ -18,5 +18,10 @@ public class MovieService {
     public Movie save(Movie movie) {
         return movieRepository.save(movie);
     }
+    
+    public void setNotVisible(Movie movie) {
+        movie.setVisible(false);
+        movieRepository.save(movie);
+    }
 
 }
