@@ -29,6 +29,15 @@ public class CinemaController {
         return cinemaService.findAllVisible();
     }
 
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public Cinema getById(@PathVariable(value = "id") UUID id) {
+        return cinemaService.findByID(id);
+    }
+    @RequestMapping(value = "get/{name}", method = RequestMethod.GET)
+    public Cinema getByName(@PathVariable(value = "name") String name) {
+        return cinemaService.findByName(name);
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerOrUpdateCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
         if (result.hasErrors()) {

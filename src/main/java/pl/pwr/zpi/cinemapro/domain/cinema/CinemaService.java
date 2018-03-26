@@ -19,8 +19,13 @@ public class CinemaService {
     public List<Cinema> findAllVisible() {
         return cinemaRepository.findByVisible(true);
     }
+
     public Cinema findByID(UUID id){
         return cinemaRepository.findById(id);
+    }
+
+    public Cinema findByName(String name) {
+        return cinemaRepository.findByName(name);
     }
 
     public Cinema save(Cinema cinema) {

@@ -12,4 +12,7 @@ public interface CinemaRepository extends JpaRepository<Cinema, Long> {
     List<Cinema> findByVisible(boolean visible);
 
     Cinema findById(UUID uuid);
+
+    Cinema findByName(String name);
+
 }
