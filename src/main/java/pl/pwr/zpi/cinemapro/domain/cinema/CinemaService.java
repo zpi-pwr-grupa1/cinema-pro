@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CinemaService {
@@ -17,6 +18,14 @@ public class CinemaService {
 
     public List<Cinema> findAllVisible() {
         return cinemaRepository.findByVisible(true);
+    }
+
+    public Cinema findByID(UUID id){
+        return cinemaRepository.findById(id);
+    }
+
+    public Cinema findByName(String name) {
+        return cinemaRepository.findByName(name);
     }
 
     public Cinema save(Cinema cinema) {
