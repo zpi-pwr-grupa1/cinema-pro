@@ -14,6 +14,10 @@ public class MovieService {
     public List<Movie> findAll() {
         return movieRepository.findAll();
     }
+    
+    public List<Movie> findAllVisible() {
+        return movieRepository.findByVisible(true);
+    }
 
     public Movie save(Movie movie) {
         return movieRepository.save(movie);

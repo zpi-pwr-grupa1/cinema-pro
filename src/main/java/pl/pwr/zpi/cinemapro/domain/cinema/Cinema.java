@@ -14,21 +14,16 @@ public class Cinema {
     @Id
     @GeneratedValue
     private UUID id;
-
-    //Adres rozbity:
-    //nazwa ulicy(street)
+    
     @Column(nullable = false)
     private String street;
     
-    //numer ulicy(streetNumber)[String bo może być np. 27-29 albo 3a]
     @Column(nullable = false)
     private String streetNumber;
     
-    //kod pocztowy(postCode)[String bo zapis np. 22-324]
     @Column(nullable = false)
     private String postCode;
     
-    //miasto(city)
     @Column(nullable = false)
     private String city;
 
@@ -46,7 +41,6 @@ public class Cinema {
     @Value("true")
     private boolean visible;
 
-    //URL do obrazku głównego(nie cała galeria, w wypadku galerii trzeba by utworzyć nową encję Galeria(Kino, URL)
     @Column(nullable = true)
     private String imgUrl;
 }

@@ -22,6 +22,11 @@ public class MovieController {
     public List<Movie> getAllMovies() {
         return movieService.findAll();
     }
+    
+    @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
+    public List<Movie> getVisibleMovies() {
+        return movieService.findAllVisible();
+    }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerMovie(@Valid @RequestBody @DTO(MovieForm.class) Movie movie, BindingResult result) {
