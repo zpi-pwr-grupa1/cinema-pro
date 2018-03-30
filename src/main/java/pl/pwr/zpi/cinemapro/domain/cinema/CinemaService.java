@@ -20,7 +20,7 @@ public class CinemaService {
         return cinemaRepository.findByVisible(true);
     }
 
-    public Cinema findByID(UUID id){
+    public Cinema findById(UUID id){
         return cinemaRepository.findById(id);
     }
 

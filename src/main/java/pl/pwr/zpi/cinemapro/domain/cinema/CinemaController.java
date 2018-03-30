@@ -1,11 +1,11 @@
 package pl.pwr.zpi.cinemapro.domain.cinema;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 
 import javax.validation.Valid;
@@ -31,7 +31,7 @@ public class CinemaController {
 
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public Cinema getById(@PathVariable(value = "id") UUID id) {
-        return cinemaService.findByID(id);
+        return cinemaService.findById(id);
     }
     @RequestMapping(value = "get/{name}", method = RequestMethod.GET)
     public Cinema getByName(@PathVariable(value = "name") String name) {
@@ -49,7 +49,7 @@ public class CinemaController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteCinema(@PathVariable(value = "id") UUID id) {
-        Cinema cinema = cinemaService.findByID(id);
+        Cinema cinema = cinemaService.findById(id);
         if (cinema == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
