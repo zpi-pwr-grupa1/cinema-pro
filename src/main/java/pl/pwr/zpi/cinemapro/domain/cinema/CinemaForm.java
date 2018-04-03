@@ -1,8 +1,8 @@
 package pl.pwr.zpi.cinemapro.domain.cinema;
 
-import pl.pwr.zpi.cinemapro.domain.cinema.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 

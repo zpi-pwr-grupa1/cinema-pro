@@ -19,7 +19,7 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         init();
     }
 
-    private void init(){
+    private void init() {
         Cinema c1 = new Cinema();
         c1.setName("CinemaPro Grabiszynska");
         c1.setStreet("Grabiszynska");

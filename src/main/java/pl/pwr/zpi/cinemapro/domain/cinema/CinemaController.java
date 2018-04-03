@@ -33,6 +33,7 @@ public class CinemaController {
     public Cinema getById(@PathVariable(value = "id") UUID id) {
         return cinemaService.findById(id);
     }
+
     @RequestMapping(value = "get/{name}", method = RequestMethod.GET)
     public Cinema getByName(@PathVariable(value = "name") String name) {
         return cinemaService.findByName(name);
@@ -43,7 +44,7 @@ public class CinemaController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-            cinemaService.save(cinema);
+        cinemaService.save(cinema);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

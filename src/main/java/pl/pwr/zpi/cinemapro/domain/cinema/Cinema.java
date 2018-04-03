@@ -1,14 +1,19 @@
 package pl.pwr.zpi.cinemapro.domain.cinema;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.UUID;
+
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cinema {
 
     @Id
