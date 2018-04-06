@@ -30,13 +30,12 @@ public class CinemaController {
     }
 
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
-    public Cinema getById(@PathVariable(value = "id") UUID id) {
-        return cinemaService.findById(id);
-    }
-
-    @RequestMapping(value = "get/{name}", method = RequestMethod.GET)
-    public Cinema getByName(@PathVariable(value = "name") String name) {
-        return cinemaService.findByName(name);
+    public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
+        Cinema cinema = cinemaService.findById(id);
+        if (cinema == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(cinema);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
