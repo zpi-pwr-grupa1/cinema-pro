@@ -19,8 +19,9 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         init();
     }
 
-    private void init(){
+    private void init() {
         Cinema c1 = new Cinema();
+        c1.setName("CinemaPro Grabiszynska");
         c1.setStreet("Grabiszynska");
         c1.setStreetNumber("10");
         c1.setPostCode("11-111");
@@ -32,6 +33,7 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c1.setVisible(true);
 
         Cinema c2 = new Cinema();
+        c2.setName("CinemaPro Legnicka");
         c2.setStreet("Legnicka");
         c2.setStreetNumber("15");
         c2.setPostCode("11-222");
