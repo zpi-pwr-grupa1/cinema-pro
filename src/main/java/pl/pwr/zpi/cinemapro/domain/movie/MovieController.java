@@ -10,6 +10,7 @@ import pl.pwr.zpi.cinemapro.common.util.DTO;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/movie")
@@ -35,6 +36,15 @@ public class MovieController {
         }
             movieService.save(movie);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
+        Movie movie = movieService.findById(id);
+        if (movie == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(movie);
     }
     
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
