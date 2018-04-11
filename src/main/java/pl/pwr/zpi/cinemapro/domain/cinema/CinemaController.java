@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -36,6 +39,14 @@ public class CinemaController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(cinema);
+    }
+    @RequestMapping(value = "get/{id}/halls", method = RequestMethod.GET)
+    public ResponseEntity getHalls(@PathVariable(value = "id") UUID id) {
+        List<Hall> halls = cinemaService.findHallsById(id);
+        if (halls == null || halls.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(halls);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

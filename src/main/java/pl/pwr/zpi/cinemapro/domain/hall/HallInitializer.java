@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import pl.pwr.zpi.cinemapro.domain.cinema.Cinema;
+import pl.pwr.zpi.cinemapro.domain.cinema.CinemaRepository;
+
+import java.util.List;
 
 // TODO configure it to be initialized only when specific profile is used
 
@@ -14,19 +18,27 @@ public class HallInitializer implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private HallRepository HallRepository;
 
+    @Autowired
+    private CinemaRepository cinemaRepository;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         init();
     }
 
     private void init() {
-        /*
-        Hall s1 = new Hall();
-        s1.setHallRow(0);
-        s1.setHallColumn(0);
+        Hall h1 = new Hall();
+        h1.setHallNumber(1);
+        Hall h2 = new Hall();
+        h2.setHallNumber(2);
+        h2.setVisible(true);
+        List<Cinema> cinemas = cinemaRepository.findAll();
+        h1.setCinema(cinemas.get(0));
+        h2.setCinema(cinemas.get(0));
 
-        HallRepository.saveAll(Lists.newArrayList(s1));
-        */
+
+        HallRepository.saveAll(Lists.newArrayList(h1, h2));
+
     }
 
 }
