@@ -46,4 +46,7 @@ public class CinemaService {
         return hallRepository.findByCinemaId(cinemaId);
     }
 
+    public List<Hall> findVisibleHallsById(UUID cinemaId){
+        return hallRepository.findByVisibleAndCinemaId(true, cinemaId);
+    }
 }

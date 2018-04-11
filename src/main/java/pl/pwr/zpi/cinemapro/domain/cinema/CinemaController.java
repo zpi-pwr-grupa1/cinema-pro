@@ -48,6 +48,14 @@ public class CinemaController {
         }
         return ResponseEntity.ok(halls);
     }
+    @RequestMapping(value = "get/{id}/halls/visible", method = RequestMethod.GET)
+    public ResponseEntity getVisibleHalls(@PathVariable(value = "id") UUID id) {
+        List<Hall> halls = cinemaService.findVisibleHallsById(id);
+        if (halls == null || halls.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(halls);
+    }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerOrUpdateCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
