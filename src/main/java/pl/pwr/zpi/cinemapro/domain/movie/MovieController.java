@@ -38,7 +38,7 @@ public class MovieController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Movie movie = movieService.findById(id);
         if (movie == null) {
@@ -47,13 +47,14 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
     
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity deleteMovie(@Valid @RequestBody @DTO(MovieForm.class) Movie movie, BindingResult result) {
-        if (result.hasErrors()) {
-            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-        }
-        movieService.setNotVisible(movie);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteMovie(@PathVariable(value = "id") UUID id) {
+            Movie movie = movieService.findById(id);
+            if (movie == null) {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+            movieService.setNotVisible(movie);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
