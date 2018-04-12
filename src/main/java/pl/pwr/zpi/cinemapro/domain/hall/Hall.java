@@ -22,10 +22,8 @@ public class Hall {
     @GeneratedValue
     private UUID id;
 
-    /*
     @OneToMany(mappedBy = "hall")
     private Set<Seat> seats;
-    */
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CINEMA_ID")
