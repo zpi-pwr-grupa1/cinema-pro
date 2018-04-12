@@ -11,4 +11,8 @@ public interface HallRepository extends JpaRepository<Hall, Long> {
     List<Hall> findByVisible(boolean visible);
 
     Hall findById(UUID uuid);
+
+    List<Hall> findByCinemaId(UUID uuid);
+
+    List<Hall> findByVisibleAndCinemaId(boolean visible, UUID uuid);
 }

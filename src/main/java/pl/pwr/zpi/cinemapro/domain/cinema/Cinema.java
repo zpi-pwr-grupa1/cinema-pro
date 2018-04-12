@@ -1,13 +1,16 @@
 package pl.pwr.zpi.cinemapro.domain.cinema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 
 @Entity
 @Table
@@ -22,6 +25,10 @@ public class Cinema {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "cinema", cascade=CascadeType.ALL)
+    @JsonIgnore
+    Set<Hall> halls;
 
     @Column(nullable = false)
     private String street;
@@ -46,7 +53,7 @@ public class Cinema {
     private String email;
     
     @Column(nullable = false)
-    @Value("true")
+    @Value("${true}")
     private boolean visible;
 
     @Column(nullable = true)

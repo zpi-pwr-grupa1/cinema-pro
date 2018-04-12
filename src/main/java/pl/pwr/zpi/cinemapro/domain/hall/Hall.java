@@ -1,6 +1,7 @@
 package pl.pwr.zpi.cinemapro.domain.hall;
 
 import java.util.Set;
+import com.fasterxml.jackson.annotation.*;
 import pl.pwr.zpi.cinemapro.domain.seat.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,8 @@ public class Hall {
     private Set<Seat> seats;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CINEMA_ID")
+    @JoinColumn(name = "cinema_id")
+    @JsonIgnore
     private Cinema cinema;
 
     @Column(nullable = false)

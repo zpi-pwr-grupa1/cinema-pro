@@ -1,23 +1,31 @@
 package pl.pwr.zpi.cinemapro.domain.movie
 
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.validation.BindingResult
 import spock.lang.Specification
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+
 class MovieControllerTest extends Specification {
+
     private MovieController movieController
     private MovieService movieService
-    private MovieRepository movieRepository
     private Movie movie
+    MockMvc mockMvc
 
-    void setup(){
+    void setup() {
         movieController = new MovieController()
 
-        movieService = new MovieService()
-        movieRepository = Mock(MovieRepository.class)
-        movieService.movieRepository = movieRepository
+        movieService = Mock(MovieService.class)
         movieController.movieService = movieService
+        mockMvc = MockMvcBuilders.standaloneSetup(movieController).build()
 
         movie = new Movie()
+        movie.id = UUID.randomUUID()
         movie.setTitle("Absurdistanian Mage")
         movie.setAge("PG-13")
         movie.setCountry("Absurdistan")
@@ -30,9 +38,26 @@ class MovieControllerTest extends Specification {
     }
 
     def "GetAllMovies"() {
-        when: movieController.getAllMovies()
-        then:1 * movieRepository.findAll()
+        when:
+        movieController.getAllMovies()
+        then:
+        1 * movieService.findAll()
 
+    }
+    def "should get all movies"() {
+        when:
+            def response = mockMvc.perform(get("/api/movie/get/all"))
+        then:
+            response.andExpect(status().isOk())
+            1 * movieService.findAll()
+
+    }
+    def "should get all visible movies"() {
+        when:
+        def response = mockMvc.perform(get("/api/movie/get/all/visible"))
+        then:
+        response.andExpect(status().isOk())
+        1 * movieService.findAllVisible()
     }
     def "RegisterMovie"() {
         given:
@@ -42,19 +67,7 @@ class MovieControllerTest extends Specification {
         movieController.registerMovie(movie, result)
 
         then:
-        1*result.hasErrors()
-        1*movieRepository.save(movie)
+        1 * result.hasErrors()
+        1 * movieService.save(movie)
     }
-    def "DeleteMovie"(){
-        given:
-        BindingResult result = Mock(BindingResult.class)
-
-        when:
-        movieController.deleteMovie(movie, result)
-
-        then:
-        !movie.visible
-        1*movieRepository.save(movie)
-    }
-
 }

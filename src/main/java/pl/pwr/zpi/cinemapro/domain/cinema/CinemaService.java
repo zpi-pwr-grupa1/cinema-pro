@@ -2,6 +2,8 @@ package pl.pwr.zpi.cinemapro.domain.cinema;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pwr.zpi.cinemapro.domain.hall.Hall;
+import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +13,9 @@ public class CinemaService {
 
     @Autowired
     CinemaRepository cinemaRepository;
+
+    @Autowired
+    HallRepository hallRepository;
 
     public List<Cinema> findAll() {
         return cinemaRepository.findAll();
@@ -37,4 +42,11 @@ public class CinemaService {
         cinemaRepository.save(cinema);
     }
 
+    public List<Hall> findHallsById(UUID cinemaId){
+        return hallRepository.findByCinemaId(cinemaId);
+    }
+
+    public List<Hall> findVisibleHallsById(UUID cinemaId){
+        return hallRepository.findByVisibleAndCinemaId(true, cinemaId);
+    }
 }
