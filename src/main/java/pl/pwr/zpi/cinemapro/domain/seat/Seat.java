@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 
 @Entity
 @Table
@@ -19,10 +18,6 @@ public class Seat {
     @Id
     @GeneratedValue
     private UUID id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HALL_ID")
-    private Hall hall;
 
     @Column(nullable = false)
     private int seatRow;
