@@ -23,7 +23,7 @@ public class Hall {
     @GeneratedValue
     private UUID id;
 
-    @OneToMany(mappedBy = "hall")
+    @OneToMany
     private Set<Seat> seats;
 
     @ManyToOne(fetch = FetchType.LAZY)
