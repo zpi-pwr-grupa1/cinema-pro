@@ -11,6 +11,7 @@ import pl.pwr.zpi.cinemapro.common.util.DTO;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/showing")
@@ -24,6 +25,22 @@ public class ShowingController {
         return showingService.findAll();
     }
 
+    @RequestMapping(value="/get/all/planned", method = RequestMethod.GET)
+    public List<Showing> getAllPlanned(){
+        Date currentDate = new Date();
+        return showingService.findAfter(currentDate);
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteShowing(@PathVariable(value = "id") UUID id) {
+        Showing showing = showingService.findById(id);
+        if (showing == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        showingService.delete(showing);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerClient(@Valid @RequestBody @DTO(ShowingForm.class) Showing showing, BindingResult result) {
         if (result.hasErrors() || showing.getId() == null && existsOverlappingShowing(showing)){
@@ -33,7 +50,7 @@ public class ShowingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     private boolean existsOverlappingShowing(Showing showing){
-        List<Showing> showings = showingService.findAll();
+        List<Showing> showings = getAllPlanned();
         showings.stream().filter(s-> s.getHall().equals(showing.getHall().getId()));
         for(Showing s : showings){
             if(checkIfOverlap(s, showing)){

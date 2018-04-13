@@ -1,6 +1,7 @@
 package pl.pwr.zpi.cinemapro.domain.showing;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 
@@ -27,7 +28,4 @@ public class Showing {
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
-
-
-
 }

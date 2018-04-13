@@ -10,6 +10,7 @@ import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 import pl.pwr.zpi.cinemapro.domain.movie.MovieRepository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,15 @@ public class ShowingInitializer implements ApplicationListener<ContextRefreshedE
         s1.setHall(halls.get(0));
         s1.setMovie(movies.get(0));
 
-        showingRepository.saveAll(Lists.newArrayList(s1));
+        Showing s2 = new Showing();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2053, 1, 1, 15, 15, 00);
+
+        s2.setScreeningStart(cal.getTime());
+        s2.setHall(halls.get(0));
+        s2.setMovie(movies.get(0));
+
+        showingRepository.saveAll(Lists.newArrayList(s1, s2));
     }
 
 }
