@@ -34,6 +34,7 @@ public class ShowingController {
     }
     private boolean existsOverlappingShowing(Showing showing){
         List<Showing> showings = showingService.findAll();
+        showings.stream().filter(s-> s.getHall().equals(showing.getHall().getId()));
         for(Showing s : showings){
             if(checkIfOverlap(s, showing)){
                 return true;
