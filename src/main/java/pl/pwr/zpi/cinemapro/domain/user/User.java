@@ -1,6 +1,8 @@
 package pl.pwr.zpi.cinemapro.domain.user;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -14,9 +16,11 @@ public class User {
     private UUID id;
 
     @Column
+    @Length(min=1)
     private String username;
 
     @Column
+    @Length(min=1)
     private String password;
 
 }
