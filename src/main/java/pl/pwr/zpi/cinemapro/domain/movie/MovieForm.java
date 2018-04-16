@@ -2,6 +2,8 @@ package pl.pwr.zpi.cinemapro.domain.movie;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -13,6 +15,7 @@ import java.util.Date;
 public class MovieForm {
 
     @NotNull
+    @Length(min=1)
     private String title;
 
     private String age;
