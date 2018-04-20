@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
+import pl.pwr.zpi.cinemapro.domain.showing.Showing;
+import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +20,9 @@ public class CinemaService {
 
     @Autowired
     HallRepository hallRepository;
+
+    @Autowired
+    ShowingRepository showingRepository;
 
     public List<Cinema> findAll() {
         return cinemaRepository.findAll();
@@ -49,4 +56,25 @@ public class CinemaService {
     public List<Hall> findVisibleHallsById(UUID cinemaId){
         return hallRepository.findByVisibleAndCinemaId(true, cinemaId);
     }
+
+    public List<Showing> findShowingsById(UUID cinemaId){
+        List<Hall> hallsInCinema = findVisibleHallsById(cinemaId);
+        List<Showing> showingsInCinema = new ArrayList<>();
+        for (Hall h : hallsInCinema) {
+            List<Showing> showingsInHall = showingRepository.findByHallId(h.getId());
+            showingsInCinema.addAll(showingsInHall);
+        }
+        return showingsInCinema;
+    }
+
+    public List<Showing> findPlannedShowingsById(UUID cinemaId){
+        List<Hall> hallsInCinema = findVisibleHallsById(cinemaId);
+        List<Showing> showingsInCinema = new ArrayList<>();
+        for (Hall h : hallsInCinema) {
+            List<Showing> showingsInHall = showingRepository.findByScreeningStartAfterAndHallId(new Date(), h.getId());
+            showingsInCinema.addAll(showingsInHall);
+        }
+        return showingsInCinema;
+    }
+
 }

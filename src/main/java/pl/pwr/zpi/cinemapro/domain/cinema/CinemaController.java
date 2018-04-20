@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
+import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -55,6 +56,23 @@ public class CinemaController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(halls);
+    }
+
+    @RequestMapping(value = "get/{id}/showings", method = RequestMethod.GET)
+    public ResponseEntity getShowings(@PathVariable(value = "id") UUID id) {
+        List<Showing> showings = cinemaService.findShowingsById(id);
+        if (showings == null || showings.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(showings);
+    }
+    @RequestMapping(value = "get/{id}/showings/planned", method = RequestMethod.GET)
+    public ResponseEntity getPlannedShowings(@PathVariable(value = "id") UUID id) {
+        List<Showing> showings = cinemaService.findPlannedShowingsById(id);
+        if (showings == null || showings.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(showings);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

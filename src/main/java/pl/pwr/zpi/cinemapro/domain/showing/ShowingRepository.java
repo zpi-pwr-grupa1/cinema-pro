@@ -12,4 +12,8 @@ public interface ShowingRepository extends JpaRepository<Showing, Long>{
     Showing findById(UUID id);
 
     List<Showing> findByScreeningStartAfter(Date date);
+
+    List<Showing> findByHallId(UUID uuid);
+
+    List<Showing> findByScreeningStartAfterAndHallId(Date date, UUID uuid);
 }
