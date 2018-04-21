@@ -20,7 +20,7 @@ public class MovieInitializer implements ApplicationListener<ContextRefreshedEve
         init();
     }
 
-    private void init(){
+    private void init() {
         
         Movie c1 = new Movie();
         c1.setAge("PG-13");

@@ -61,7 +61,7 @@ public class CinemaController {
     @RequestMapping(value = "get/{id}/showings", method = RequestMethod.GET)
     public ResponseEntity getShowings(@PathVariable(value = "id") UUID id) {
         List<Showing> showings = cinemaService.findShowingsById(id);
-        if (showings == null || showings.isEmpty()) {
+        if (showings == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(showings);

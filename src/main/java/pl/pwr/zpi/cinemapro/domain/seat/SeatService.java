@@ -3,6 +3,7 @@ package pl.pwr.zpi.cinemapro.domain.seat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,20 @@ public class SeatService {
     public void setNotVisible(Seat seat) {
         seat.setVisible(false);
         seatRepository.save(seat);
+    }
+
+    public List<Seat> createSeats(int n, int k) {
+        List<Seat> seats = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            for (int j = 0; i < k; i++) {
+                Seat s = new Seat();
+                s.setSeatColumn(i);
+                s.setSeatRow(j);
+                seats.add(s);
+            }
+        }
+
+        return seatRepository.saveAll(seats);
     }
 
 }

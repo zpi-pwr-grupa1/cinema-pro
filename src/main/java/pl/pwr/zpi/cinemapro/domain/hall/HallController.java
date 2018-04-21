@@ -1,6 +1,5 @@
 package pl.pwr.zpi.cinemapro.domain.hall;
 
-import pl.pwr.zpi.cinemapro.domain.hall.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -8,13 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
-import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 
 @RestController
 @RequestMapping("/api/hall")
@@ -22,6 +19,9 @@ public class HallController {
 
     @Autowired
     HallService hallService;
+
+    @Autowired
+    SeatService seatsService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Hall> getAllhalls() {
@@ -79,16 +79,7 @@ public class HallController {
         if (hall.getSeats() == null){
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        Set<Seat> seats;
-        seats = new TreeSet<>();
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
-                Seat s = new Seat();
-                s.setSeatColumn(j);
-                s.setSeatRow(i);
-                seats.add(s);
-            }
-        }
+        this.seatsService.createSeats(columns, rows);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
