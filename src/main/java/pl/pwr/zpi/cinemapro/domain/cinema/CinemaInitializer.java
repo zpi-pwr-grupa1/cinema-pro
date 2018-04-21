@@ -29,7 +29,7 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c1.setDescription("Jakis opis");
         c1.setTelephone("710000000");
         c1.setEmail("email@email.com");
-        c1.setImgUrl("https://img.buzzfeed.com/buzzfeed-static/static/2014-10/2/15/enhanced/webdr02/longform-original-30174-1412277841-15.jpg?downsize=715:*&output-format=auto&output-quality=auto");
+        c1.setImgUrl("http://www.marcustheatres.com/media/images/gallery-images/ridge-cinema-new-berlin/47-ridge-exteriorjpg.jpg");
         c1.setVisible(true);
 
         Cinema c2 = new Cinema();
@@ -41,6 +41,7 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c2.setDescription("Test description");
         c2.setTelephone("71111222");
         c2.setEmail("email2@email.com");
+        c2.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
         c2.setVisible(false);
 
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2));
