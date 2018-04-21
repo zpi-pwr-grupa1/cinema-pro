@@ -42,6 +42,7 @@ public class SeatService {
                 Seat s = new Seat();
                 s.setSeatColumn(i);
                 s.setSeatRow(j);
+                s.setVisible(true);
                 seats.add(s);
             }
         }
