@@ -7,12 +7,15 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
+import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
+import pl.pwr.zpi.cinemapro.domain.movie.Movie;
+import pl.pwr.zpi.cinemapro.domain.movie.MovieRepository;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
+import pl.pwr.zpi.cinemapro.domain.showing.Showing;
+import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 // TODO configure it to be initialized only when specific profile is used
 
@@ -23,7 +26,17 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
     private CinemaRepository cinemaRepository;
 
     @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private ShowingRepository showingRepository;
+
+    @Autowired
+    private HallRepository hallRepository;
+
+    @Autowired
     private SeatService seatService;
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -31,6 +44,18 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
     }
 
     private void init() {
+        Movie m1 = new Movie();
+        m1.setAge("PG-13");
+        m1.setCountry("USA");
+        m1.setDirector("Michael Bay");
+        m1.setMovieCast("Shia LaBeouf, Megan Fox, Josh Duhamel");
+        m1.setPolishReleaseDate(new Date(System.currentTimeMillis()));
+        m1.setWorldReleaseDate(new Date(System.currentTimeMillis()));
+        m1.setRunTime(144);
+        m1.setStoryline("Something with robots and EXPLOSIONSSSS!!!");
+        m1.setTitle("Transformers");
+        m1.setVisible(true);
+
         Cinema c1 = new Cinema();
         c1.setName("CinemaPro Grabiszynska");
         c1.setStreet("Grabiszynska");
@@ -47,15 +72,29 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         h1.setHallNumber(0);
         HashSet<Seat> seats = new HashSet<>(seatService.createSeats(10, 10));
         h1.setSeats(seats);
+        h1.setCinema(c1);
+        h1.setVisible(true);
 
         Hall h2 = new Hall();
         h2.setHallNumber(1);
         HashSet<Seat> seats2 = new HashSet<>(seatService.createSeats(20, 15));
         h2.setSeats(seats2);
-        c1.setHalls(Sets.newHashSet(h1, h2));
+        h2.setCinema(c1);
+        h2.setVisible(true);
 
         //TODO here initialise showings for cinemas
 
+        Showing s1 = new Showing();
+        s1.setScreeningStart(new Date());
+        s1.setHall(h1);
+        s1.setMovie(m1);
+
+        Showing s2 = new Showing();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2053, 1, 1, 15, 15, 00);
+        s2.setScreeningStart(cal.getTime());
+        s2.setHall(h2);
+        s2.setMovie(m1);
 
         Cinema c2 = new Cinema();
         c2.setName("CinemaPro Legnicka");
@@ -69,8 +108,10 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         c2.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
         c2.setVisible(false);
 
-
+        movieRepository.saveAll(Lists.newArrayList(m1));
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2));
+        hallRepository.saveAll(Lists.newArrayList(h1, h2));
+        showingRepository.saveAll(Lists.newArrayList(s1, s2));
     }
 
 }
