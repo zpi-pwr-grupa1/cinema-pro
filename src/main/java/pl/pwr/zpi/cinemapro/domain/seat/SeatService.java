@@ -38,7 +38,7 @@ public class SeatService {
     public List<Seat> createSeats(int n, int k) {
         List<Seat> seats = new ArrayList<>();
         for(int i=0; i<n; i++) {
-            for (int j = 0; i < k; i++) {
+            for (int j = 0; j < k; j++) {
                 Seat s = new Seat();
                 s.setSeatColumn(i);
                 s.setSeatRow(j);
