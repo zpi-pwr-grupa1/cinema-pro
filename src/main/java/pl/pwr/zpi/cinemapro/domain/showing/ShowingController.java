@@ -42,40 +42,12 @@ public class ShowingController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerClient(@Valid @RequestBody @DTO(ShowingForm.class) Showing showing, BindingResult result) {
-        if (result.hasErrors() || showing.getId() == null && existsOverlappingShowing(showing)){
+    public ResponseEntity addShowing(@Valid @RequestBody @DTO(ShowingForm.class) Showing showing, BindingResult result) {
+        if (result.hasErrors() || showing.getId() == null && showingService.existsOverlappingShowing(showing)){
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         showingService.save(showing);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-    private boolean existsOverlappingShowing(Showing showing){
-        List<Showing> showings = getAllPlanned();
-        showings.stream().filter(s-> s.getHall().getId().equals(showing.getHall().getId()));
-        for(Showing s : showings){
-            if(checkIfOverlap(s, showing)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkIfOverlap(Showing s1, Showing s2) {
-        Date startDate1 = s1.getScreeningStart();
-        Date endDate1 = getScreeningEnd(s1);
-        Date startDate2 = s2.getScreeningStart();
-        Date endDate2 = getScreeningEnd(s2);
-        boolean result = startDate1.before(endDate2) && startDate2.before(endDate1);
-        return result;
-    }
-
-    private Date getScreeningEnd(Showing showing) {
-        final long ONE_MINUTE_IN_MILIS = 60000;
-
-        int movieLength = showing.getMovie().getRunTime();
-        long screeningStart = showing.getScreeningStart().getTime();
-        Date screeningEnd = new Date(screeningStart + (movieLength * ONE_MINUTE_IN_MILIS));
-        return  screeningEnd;
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
