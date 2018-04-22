@@ -83,6 +83,7 @@ public class CinemaController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        cinema.setVisible(true);
         cinemaService.save(cinema);
         return new ResponseEntity<>(HttpStatus.OK);
     }
