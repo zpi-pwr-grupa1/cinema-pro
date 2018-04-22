@@ -8,12 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
+import pl.pwr.zpi.cinemapro.domain.hall.HallForm;
+import pl.pwr.zpi.cinemapro.domain.hall.HallService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +22,9 @@ public class CinemaController {
 
     @Autowired
     CinemaService cinemaService;
+
+    @Autowired
+    HallService hallService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Cinema> getAllCinemas() {
@@ -83,6 +86,22 @@ public class CinemaController {
         cinemaService.save(cinema);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "{id}/put/hall", method = RequestMethod.PUT)
+    public ResponseEntity addHallToCinema(@Valid @RequestBody @DTO(HallForm.class) Hall hall,
+                                  @PathVariable(value ="id") UUID cinemaId, BindingResult result) {
+        Cinema cinema = cinemaService.findById(cinemaId);
+        hall.setCinema(cinema);
+        hall.setVisible(true);
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        cinemaService.save(cinema);
+        hallService.save(hall);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteCinema(@PathVariable(value = "id") UUID id) {
