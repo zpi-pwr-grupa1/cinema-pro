@@ -34,7 +34,8 @@ public class MovieController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-            movieService.save(movie);
+        movie.setVisible(true);
+        movieService.save(movie);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -47,6 +47,7 @@ public class HallController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        hall.setVisible(true);
         hallService.save(hall);
         return new ResponseEntity<>(HttpStatus.OK);
     }

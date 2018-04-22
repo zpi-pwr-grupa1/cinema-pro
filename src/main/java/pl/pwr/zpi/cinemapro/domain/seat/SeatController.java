@@ -43,6 +43,7 @@ public class SeatController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        seat.setVisible(true);
         seatService.save(seat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
