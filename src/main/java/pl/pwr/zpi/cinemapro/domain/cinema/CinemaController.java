@@ -79,11 +79,29 @@ public class CinemaController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerOrUpdateCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
+    public ResponseEntity registerCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         cinemaService.save(cinema);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
+    public ResponseEntity updateCinema(@Valid @RequestBody @DTO(CinemaForm.class) Cinema cinema, BindingResult result) {
+        Cinema existingCinema = cinemaService.findById(cinema.getId());
+        if (result.hasErrors() || existingCinema == null) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        existingCinema.setName(cinema.getName());
+        existingCinema.setStreet(cinema.getStreet());
+        existingCinema.setStreetNumber(cinema.getStreetNumber());
+        existingCinema.setPostCode(cinema.getPostCode());
+        existingCinema.setCity(cinema.getCity());
+        existingCinema.setTelephone(cinema.getTelephone());
+        existingCinema.setDescription(cinema.getDescription());
+        existingCinema.setEmail(cinema.getEmail());
+        existingCinema.setImgUrl(cinema.getImgUrl());
+        cinemaService.save(existingCinema);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
