@@ -1,10 +1,13 @@
-package pl.pwr.zpi.cinemapro.domain.client;
+package pl.pwr.zpi.cinemapro.common.initialization;
 
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import pl.pwr.zpi.cinemapro.domain.client.Client;
+import pl.pwr.zpi.cinemapro.domain.client.ClientRepository;
+
 import java.util.Date;
 
 // TODO configure it to be initialized only when specific profile is used

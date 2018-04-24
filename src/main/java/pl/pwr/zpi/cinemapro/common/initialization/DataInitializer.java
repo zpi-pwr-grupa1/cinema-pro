@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.domain.cinema;
+package pl.pwr.zpi.cinemapro.common.initialization;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import pl.pwr.zpi.cinemapro.domain.cinema.Cinema;
+import pl.pwr.zpi.cinemapro.domain.cinema.CinemaRepository;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
@@ -18,10 +20,9 @@ import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
 import java.util.*;
 
 // TODO configure it to be initialized only when specific profile is used
-// TODO move to separate package
 
 @Component
-public class CinemaInitializer implements ApplicationListener<ContextRefreshedEvent> {
+public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private CinemaRepository cinemaRepository;
