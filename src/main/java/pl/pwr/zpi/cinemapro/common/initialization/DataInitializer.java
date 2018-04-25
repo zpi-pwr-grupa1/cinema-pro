@@ -181,14 +181,17 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         Ticket t1 = new Ticket();
         Seat seat = seats.iterator().next();
         t1.setSeat(seat);
+        t1.setTicketType(tt1);
 
         Ticket t2 = new Ticket();
         seat = seats.iterator().next();
         t2.setSeat(seat);
+        t2.setTicketType(tt2);
 
         Ticket t3 = new Ticket();
         seat = seats.iterator().next();
         t3.setSeat(seat);
+        t3.setTicketType(tt3);
 
         Showing s1 = new Showing();
         s1.setScreeningStart(new Date());
@@ -256,8 +259,8 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
-        ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
         ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
+        ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
     }
 
 }
