@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.domain.ticket;
+package pl.pwr.zpi.cinemapro.domain.ticket.type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -7,48 +7,54 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/ticket")
-public class TicketController {
+@RequestMapping("/api/ticket/type")
+public class TicketTypeController {
 
     @Autowired
-    TicketService ticketService;
+    TicketTypeService ticketTypeService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
-    public List<Ticket> getAllTickets() {
-        return ticketService.findAll();
+    public List<TicketType> getAllTicketTypes() {
+        return ticketTypeService.findAll();
+    }
+    @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
+    public List<TicketType> getAllVisibleTicketTypes() {
+        return ticketTypeService.findAllVisible();
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public ResponseEntity getTicketByID(@PathVariable(value = "id") UUID id) {
-        Ticket ticket = ticketService.findById(id);
-        if (ticket == null) {
+    public ResponseEntity getTicketTypeByID(@PathVariable(value = "id") UUID id) {
+        TicketType ticketType = ticketTypeService.findById(id);
+        if (ticketType == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(ticket);
+        return ResponseEntity.ok(ticketType);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity addTicket(@Valid @RequestBody @DTO(TicketForm.class) Ticket ticket, BindingResult result) {
+    public ResponseEntity addTicketType(@Valid @RequestBody @DTO(TicketTypeForm.class) TicketType ticketType, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        ticketService.save(ticket);
+        ticketType.setVisible(true);
+        ticketTypeService.save(ticketType);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteTicket(@PathVariable(value = "id") UUID id) {
-        Ticket ticket = ticketService.findById(id);
-        if (ticket == null) {
+    public ResponseEntity deleteTicketType(@PathVariable(value = "id") UUID id) {
+        TicketType ticketType = ticketTypeService.findById(id);
+        if (ticketType == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        ticketService.delete(ticket);
+        ticketTypeService.setNotVisible(ticketType);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
