@@ -65,7 +65,6 @@ public class HallController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void constraintViolation() {
-
     }
     
     @RequestMapping(

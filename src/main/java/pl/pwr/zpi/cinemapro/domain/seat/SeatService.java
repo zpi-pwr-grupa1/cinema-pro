@@ -25,7 +25,6 @@ public class SeatService {
         return seatRepository.findById(id);
     }
 
-
     public Seat save(Seat seat) {
         return seatRepository.save(seat);
     }

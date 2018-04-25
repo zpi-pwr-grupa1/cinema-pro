@@ -1,7 +1,6 @@
 package pl.pwr.zpi.cinemapro.common.initialization;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

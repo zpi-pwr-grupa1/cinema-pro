@@ -39,7 +39,7 @@ public class SeatController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerOrUpdateseat(@Valid @RequestBody @DTO(SeatForm.class) Seat seat, BindingResult result) {
+    public ResponseEntity registerOrUpdateSeat(@Valid @RequestBody @DTO(SeatForm.class) Seat seat, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +49,7 @@ public class SeatController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteseat(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity deleteSeat(@PathVariable(value = "id") UUID id) {
         Seat seat = seatService.findById(id);
         if (seat == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
