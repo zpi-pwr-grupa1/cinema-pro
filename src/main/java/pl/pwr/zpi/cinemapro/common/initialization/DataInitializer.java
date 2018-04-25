@@ -15,6 +15,10 @@ import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
+import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
+import pl.pwr.zpi.cinemapro.domain.ticket.TicketRepository;
+import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
+import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketTypeRepository;
 
 import java.util.*;
 
@@ -36,7 +40,14 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     private HallRepository hallRepository;
 
     @Autowired
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    private TicketTypeRepository ticketTypeRepository;
+
+    @Autowired
     private SeatService seatService;
+
 
 
     @Override
@@ -45,6 +56,21 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     }
 
     private void init() {
+        TicketType tt1 = new TicketType();
+        tt1.setName("Normalny");
+        tt1.setPrice(20.0);
+        tt1.setVisible(true);
+
+        TicketType tt2 = new TicketType();
+        tt2.setName("Ulgowy");
+        tt2.setPrice(15.0);
+        tt2.setVisible(true);
+
+        TicketType tt3 = new TicketType();
+        tt3.setName("Studencki");
+        tt3.setPrice(10.0);
+        tt3.setVisible(true);
+
         Movie m1 = new Movie();
         m1.setAge("PG-13");
         m1.setCountry("USA");
@@ -152,6 +178,21 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         h5.setCinema(c3);
         h5.setVisible(true);
 
+        Ticket t1 = new Ticket();
+        Seat seat = seats.iterator().next();
+        t1.setSeat(seat);
+        t1.setTicketType(tt1);
+
+        Ticket t2 = new Ticket();
+        seat = seats.iterator().next();
+        t2.setSeat(seat);
+        t2.setTicketType(tt2);
+
+        Ticket t3 = new Ticket();
+        seat = seats.iterator().next();
+        t3.setSeat(seat);
+        t3.setTicketType(tt3);
+
         Showing s1 = new Showing();
         s1.setScreeningStart(new Date());
         s1.setHall(h1);
@@ -213,10 +254,13 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         s10.setHall(h5);
         s10.setMovie(m1);
 
+
         movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
+        ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
+        ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
     }
 
 }
