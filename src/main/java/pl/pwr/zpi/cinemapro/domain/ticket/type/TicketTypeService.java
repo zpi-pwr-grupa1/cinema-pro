@@ -2,7 +2,6 @@ package pl.pwr.zpi.cinemapro.domain.ticket.type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
 
 import java.util.List;
 import java.util.UUID;

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
-import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
 
 import javax.validation.Valid;
 import java.util.List;
