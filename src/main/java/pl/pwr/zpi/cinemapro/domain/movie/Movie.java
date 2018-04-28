@@ -1,10 +1,13 @@
 package pl.pwr.zpi.cinemapro.domain.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
+import pl.pwr.zpi.cinemapro.domain.group.Group;
 
 @Entity
 @Table
@@ -50,4 +53,10 @@ public class Movie {
     @Column(nullable = false)
     @Value("true")
     private boolean visible;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    @JsonIgnore
+    private Set<Group> group;
+    
 }
