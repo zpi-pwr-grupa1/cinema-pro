@@ -1,17 +1,15 @@
 package pl.pwr.zpi.cinemapro.domain.group;
 
-import pl.pwr.zpi.cinemapro.domain.hall.*;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.*;
-import pl.pwr.zpi.cinemapro.domain.seat.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.UUID;
 
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import pl.pwr.zpi.cinemapro.domain.cinema.Cinema;
+import pl.pwr.zpi.cinemapro.domain.client.Client;
+import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 
 @Entity
 @Table
@@ -24,18 +22,16 @@ public class Group {
     @GeneratedValue
     private UUID id;
 
-    @OneToMany
-    private Set<Seat> seats;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_id")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
     @JsonIgnore
-    private Cinema cinema;
+    private Set<Client> client;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
+    @JsonIgnore
+    private Set<Movie> movie;
 
     @Column(nullable = false)
-    private int hallNumber;
-
-    @Column(nullable = false)
-    @Value("true")
-    private boolean visible;
+    private String label;
 }
