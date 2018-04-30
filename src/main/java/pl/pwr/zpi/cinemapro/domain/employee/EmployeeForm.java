@@ -34,8 +34,6 @@ public class EmployeeForm {
     @NotNull
     private Date startingDateOfEmployment;
 
-    @NotNull
-    private boolean employed;
     
     @NotNull
     @Length(min=1)

@@ -25,7 +25,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
-    public List<Employee> getVisibleemployees() {
+    public List<Employee> getVisibleEmployees() {
         return employeeService.findAllVisible();
     }
 
@@ -39,22 +39,22 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerOrUpdateemployee(@Valid @RequestBody @DTO(EmployeeForm.class) Employee employee, BindingResult result) {
+    public ResponseEntity registerOrUpdateEmployee(@Valid @RequestBody @DTO(EmployeeForm.class) Employee employee, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        employee.setEmployed(true);
+        employee.setVisible(true);
         employeeService.save(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteemployee(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity deleteEmployee(@PathVariable(value = "id") UUID id) {
         Employee employee = employeeService.findById(id);
         if (employee == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        employeeService.setNotEmployed(employee);
+        employeeService.setNotVisible(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

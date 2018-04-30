@@ -29,8 +29,8 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void setNotEmployed(Employee employee) {
-        employee.setEmployed(false);
+    public void setNotVisible(Employee employee) {
+        employee.setVisible(false);
         employeeRepository.save(employee);
     }
 

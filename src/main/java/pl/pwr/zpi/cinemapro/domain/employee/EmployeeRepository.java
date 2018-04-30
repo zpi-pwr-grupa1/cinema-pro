@@ -14,5 +14,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByCinemaId(UUID uuid);
 
-    List<Employee> findByEmployedAndCinemaId(boolean employed, UUID uuid);
+    List<Employee> findByVisibleAndCinemaId(boolean employed, UUID uuid);
 }

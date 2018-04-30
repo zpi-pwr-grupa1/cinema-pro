@@ -44,7 +44,7 @@ public class Employee {
 
     @Column(nullable = false)
     @Value("true")
-    private boolean employed;
+    private boolean visible;
     
     @Column(nullable = false)
     private String street;
