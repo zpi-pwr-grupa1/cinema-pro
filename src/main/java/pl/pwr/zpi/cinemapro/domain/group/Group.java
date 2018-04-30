@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import pl.pwr.zpi.cinemapro.domain.client.Client;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 
@@ -34,4 +35,8 @@ public class Group {
 
     @Column(nullable = false)
     private String label;
+    
+    @Column(nullable = false)
+    @Value("true")
+    private boolean visible;
 }

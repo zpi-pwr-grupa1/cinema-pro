@@ -11,6 +11,7 @@ import pl.pwr.zpi.cinemapro.common.util.DTO;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 
 @RestController
 @RequestMapping("/api/Group")
@@ -53,12 +54,12 @@ public class GroupController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteGroup(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity deletehall(@PathVariable(value = "id") UUID id) {
         Group group = groupService.findById(id);
         if (group == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        groupService.delete(group);
+        groupService.setNotVisible(group);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

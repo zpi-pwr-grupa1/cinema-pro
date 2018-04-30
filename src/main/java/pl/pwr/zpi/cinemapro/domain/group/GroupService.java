@@ -28,6 +28,14 @@ public class GroupService {
         return groupRepository.findById(id);
     }
 
+    public List<Group> findAllVisible() {
+        return groupRepository.findByVisible(true);
+    }
+    
+    public void setNotVisible(Group group) {
+        group.setVisible(false);
+        groupRepository.save(group);
+    }
 
     public Group save(Group group) {
         return groupRepository.save(group);
