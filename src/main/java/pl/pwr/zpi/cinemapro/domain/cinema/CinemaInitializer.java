@@ -16,6 +16,8 @@ import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
 
 import java.util.*;
+import pl.pwr.zpi.cinemapro.domain.employee.Employee;
+import pl.pwr.zpi.cinemapro.domain.employee.EmployeeRepository;
 
 // TODO configure it to be initialized only when specific profile is used
 // TODO move to separate package
@@ -37,6 +39,9 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private SeatService seatService;
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
 
     @Override
@@ -212,11 +217,38 @@ public class CinemaInitializer implements ApplicationListener<ContextRefreshedEv
         s10.setScreeningStart(cal.getTime());
         s10.setHall(h5);
         s10.setMovie(m1);
+        
+        Employee e1 = new Employee();
+        cal.set(1999, 1, 1, 13, 15, 00);
+        e1.setStartingDateOfEmployment(cal.getTime());
+        e1.setName("Tomasz");
+        e1.setSurname("Kot");
+        e1.setEmail("jakis.email@email.com");
+        e1.setCity("Wroclaw");
+        e1.setStreet("Dluga");
+        e1.setPostCode("55-555");
+        e1.setStreetNumber("12");
+        e1.setTelephone("777777777");
+        
+        Employee e2 = new Employee();
+        cal.set(2000, 1, 1, 13, 15, 00);
+        e2.setStartingDateOfEmployment(cal.getTime());
+        e2.setName("Anna");
+        e2.setSurname("Pies");
+        e2.setEmail("a.pies@email.com");
+        e2.setCity("Wroclaw");
+        e2.setStreet("Prosta");
+        e2.setPostCode("55-535");
+        e2.setStreetNumber("17/8");
+        e2.setTelephone("777888777");
+        
+        
 
         movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
+        employeeRepository.saveAll(Lists.newArrayList(e1, e2));
     }
 
 }
