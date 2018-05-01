@@ -34,10 +34,10 @@ public class SeatService {
         seatRepository.save(seat);
     }
 
-    public List<Seat> createSeats(int n, int k) {
+    public List<Seat> createSeats(int columns, int rows) {
         List<Seat> seats = new ArrayList<>();
-        for(int i=0; i<n; i++) {
-            for (int j = 0; j < k; j++) {
+        for(int i=0; i<columns; i++) {
+            for (int j = 0; j < rows; j++) {
                 Seat s = new Seat();
                 s.setSeatColumn(i);
                 s.setSeatRow(j);
@@ -45,7 +45,6 @@ public class SeatService {
                 seats.add(s);
             }
         }
-
         return seatRepository.saveAll(seats);
     }
 
