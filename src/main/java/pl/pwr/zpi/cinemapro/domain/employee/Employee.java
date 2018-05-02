@@ -39,7 +39,6 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id")
-    @JsonIgnore
     private Cinema cinema;
 
     @Column(nullable = false)
