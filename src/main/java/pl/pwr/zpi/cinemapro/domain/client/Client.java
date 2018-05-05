@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
-import pl.pwr.zpi.cinemapro.domain.group.Group;
+import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroup;
 
 @Entity
 @Table
@@ -29,8 +29,7 @@ public class Client {
     private Date birthDate;
     
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    @JsonIgnore
-    private Set<Group> group;
-
+    @JoinColumn(name = "movie_group_id")
+    private Set<MovieGroup> groups;
+    
 }

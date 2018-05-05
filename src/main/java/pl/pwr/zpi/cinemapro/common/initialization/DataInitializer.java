@@ -1,6 +1,7 @@
 package pl.pwr.zpi.cinemapro.common.initialization;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -21,12 +22,19 @@ import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketTypeRepository;
 
 import java.util.*;
+import pl.pwr.zpi.cinemapro.domain.client.Client;
+import pl.pwr.zpi.cinemapro.domain.client.ClientRepository;
+import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroup;
+import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroupRepository;
 
 // TODO configure it to be initialized only when specific profile is used
 
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
+    @Autowired
+    private MovieGroupRepository groupRepository;
+    
     @Autowired
     private CinemaRepository cinemaRepository;
 
@@ -47,6 +55,11 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     @Autowired
     private SeatService seatService;
+    
+    
+    
+    @Autowired
+    private ClientRepository clientRepository;
 
 
 
@@ -56,6 +69,14 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     }
 
     private void init() {
+        
+        MovieGroup g1 = new MovieGroup();
+        g1.setLabel("Sci-Fi");
+        
+        MovieGroup g2 = new MovieGroup();
+        g2.setLabel("Action");
+        
+        
         TicketType tt1 = new TicketType();
         tt1.setName("Normalny");
         tt1.setPrice(20.0);
@@ -70,7 +91,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         tt3.setName("Studencki");
         tt3.setPrice(10.0);
         tt3.setVisible(true);
-
+        
         Movie m1 = new Movie();
         m1.setAge("PG-13");
         m1.setCountry("USA");
@@ -82,6 +103,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m1.setStoryline("Something with robots and EXPLOSIONSSSS!!!");
         m1.setTitle("Transformers");
         m1.setVisible(true);
+        m1.setGroups(Sets.newHashSet(g1, g2));
 
         Movie m2 = new Movie();
         m2.setAge("PG-18");
@@ -94,6 +116,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m2.setStoryline("Something with hamsters and DUMPSTERS!!!");
         m2.setTitle("Hamstermers");
         m2.setVisible(true);
+        m2.setGroups(Sets.newHashSet(g1));
 
         Movie m3 = new Movie();
         m3.setAge("PG-13");
@@ -106,6 +129,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m3.setStoryline("Tale of fascinating intrigue.");
         m3.setTitle("Holmriarty");
         m3.setVisible(true);
+        m3.setGroups(Sets.newHashSet(g2));
 
         Cinema c1 = new Cinema();
         c1.setName("CinemaPro Grabiszynska");
@@ -253,14 +277,31 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         s10.setScreeningStart(cal.getTime());
         s10.setHall(h5);
         s10.setMovie(m1);
+        
+        Client cl1 = new Client();
+        cl1.setEmail("user1@email.com");
+        cl1.setPassword("password1");
+        cl1.setBirthDate(new Date());
 
+        Client cl2 = new Client();
+        cl2.setEmail("user2@email.com");
+        cl2.setPassword("password2");
+        cl2.setBirthDate(new Date());
 
-        movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));
+        Client cl3 = new Client();
+        cl3.setEmail("user3@email.com");
+        cl3.setPassword("password3");
+        cl3.setBirthDate(new Date());
+
+        groupRepository.saveAll(Lists.newArrayList(g1, g2));
+        clientRepository.saveAll(Lists.newArrayList(cl1, cl2, cl3));
+        movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));        
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
         ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
         ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
+        
     }
 
 }

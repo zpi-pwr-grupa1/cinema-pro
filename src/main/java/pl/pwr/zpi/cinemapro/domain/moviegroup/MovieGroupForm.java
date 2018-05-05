@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.domain.group;
+package pl.pwr.zpi.cinemapro.domain.moviegroup;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 @AllArgsConstructor
 @Data
-public class GroupForm {
+public class MovieGroupForm {
     @NotNull
     @Length(min=1)
     private String label;
