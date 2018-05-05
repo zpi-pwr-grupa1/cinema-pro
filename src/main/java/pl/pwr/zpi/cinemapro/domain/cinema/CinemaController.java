@@ -120,8 +120,6 @@ public class CinemaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteCinema(@PathVariable(value = "id") UUID id) {
         Cinema cinema = cinemaService.findById(id);

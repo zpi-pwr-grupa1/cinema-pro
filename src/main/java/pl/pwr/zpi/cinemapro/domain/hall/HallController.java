@@ -7,10 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -65,7 +68,6 @@ public class HallController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void constraintViolation() {
-
     }
     
     @RequestMapping(
@@ -80,7 +82,9 @@ public class HallController {
         if (hall.getSeats() == null){
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        this.seatsService.createSeats(columns, rows);
+        Set<Seat> seats = new HashSet<>(seatsService.createSeats(columns, rows));
+        hall.setSeats(seats);
+        hallService.save(hall);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -21,7 +21,7 @@ public class ShowingController {
     ShowingService showingService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
-    public List<Showing> getAllClients() {
+    public List<Showing> getAllShowings() {
         return showingService.findAll();
     }
 

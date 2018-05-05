@@ -1,4 +1,4 @@
-package pl.pwr.zpi.cinemapro.domain.seat;
+package pl.pwr.zpi.cinemapro.domain.ticket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,54 +13,47 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/seat")
-public class SeatController {
+@RequestMapping("/api/ticket")
+public class TicketController {
 
     @Autowired
-    SeatService seatService;
+    TicketService ticketService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
-    public List<Seat> getAllSeats() {
-        return seatService.findAll();
+    public List<Ticket> getAllTickets() {
+        return ticketService.findAll();
     }
 
-    @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
-    public List<Seat> getVisibleSeats() {
-        return seatService.findAllVisible();
-    }
-
-    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
-    public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
-        Seat seat = seatService.findById(id);
-        if (seat == null) {
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity getTicketByID(@PathVariable(value = "id") UUID id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(seat);
+        return ResponseEntity.ok(ticket);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerOrUpdateSeat(@Valid @RequestBody @DTO(SeatForm.class) Seat seat, BindingResult result) {
+    public ResponseEntity addTicket(@Valid @RequestBody @DTO(TicketForm.class) Ticket ticket, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        seat.setVisible(true);
-        seatService.save(seat);
+        ticketService.save(ticket);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteSeat(@PathVariable(value = "id") UUID id) {
-        Seat seat = seatService.findById(id);
-        if (seat == null) {
+    public ResponseEntity deleteTicket(@PathVariable(value = "id") UUID id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        seatService.setNotVisible(seat);
+        ticketService.delete(ticket);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public void constraintViolation() {
-
+    public void constraintViolation(){
     }
 }

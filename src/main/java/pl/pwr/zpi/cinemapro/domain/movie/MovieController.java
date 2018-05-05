@@ -48,7 +48,6 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
 
-    
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteMovie(@PathVariable(value = "id") UUID id) {
             Movie movie = movieService.findById(id);
