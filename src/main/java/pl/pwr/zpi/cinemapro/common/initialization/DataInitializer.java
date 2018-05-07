@@ -290,6 +290,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         e1.setPostCode("55-555");
         e1.setStreetNumber("12");
         e1.setTelephone("777777777");
+        e1.setCinema(c1);
         
         Employee e2 = new Employee();
         cal.set(2000, 1, 1, 13, 15, 00);
@@ -302,6 +303,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         e2.setPostCode("55-535");
         e2.setStreetNumber("17/8");
         e2.setTelephone("777888777");
+        e2.setCinema(c1);
         
         Client cl1 = new Client();
         cl1.setEmail("user1@email.com");

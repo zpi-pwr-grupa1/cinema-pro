@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity registerOrUpdateEmployee(@Valid @RequestBody @DTO(EmployeeForm.class) Employee employee, BindingResult result) {
+    public ResponseEntity registerEmployee(@Valid @RequestBody @DTO(EmployeeForm.class) Employee employee, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
@@ -47,6 +47,28 @@ public class EmployeeController {
         employeeService.save(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT)
+    public ResponseEntity updateEmployee(@Valid @RequestBody @DTO(Employee.class) Employee employee, BindingResult result) {
+        Employee existingEmployee = employeeService.findById(employee.getId());
+        if (result.hasErrors() || existingEmployee == null) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        existingEmployee.setName(employee.getName());
+        existingEmployee.setSurname(employee.getSurname());
+        existingEmployee.setEmail(employee.getEmail());
+        existingEmployee.setStartingDateOfEmployment(employee.getStartingDateOfEmployment());
+        existingEmployee.setCinema(employee.getCinema());
+        existingEmployee.setVisible(employee.isVisible());
+        existingEmployee.setStreet(employee.getStreet());
+        existingEmployee.setStreetNumber(employee.getStreetNumber());
+        existingEmployee.setPostCode(employee.getPostCode());
+        existingEmployee.setCity(employee.getCity());
+        existingEmployee.setTelephone(employee.getTelephone());
+        employeeService.save(existingEmployee);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteEmployee(@PathVariable(value = "id") UUID id) {

@@ -37,7 +37,7 @@ public class Employee {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startingDateOfEmployment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
