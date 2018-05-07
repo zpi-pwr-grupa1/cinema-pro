@@ -11,9 +11,4 @@ public interface MovieGroupRepository extends JpaRepository<MovieGroup, Long> {
     List<MovieGroup> findByVisible(boolean visible);
 
     MovieGroup findById(UUID uuid);
-/*
-    List<MovieGroup> findByMovieId(UUID uuid);
-
-    List<MovieGroup> findByClientId(UUID uuid);
-*/
 }

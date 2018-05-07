@@ -15,15 +15,7 @@ public class MovieGroupService {
     public List<MovieGroup> findAll() {
         return movieGroupRepository.findAll();
     }
-/*
-    public List<MovieGroup> findByMovieId(UUID id) {
-        return movieGroupRepository.findByMovieId(id);
-    }
-    
-    public List<MovieGroup> findByClientId(UUID id) {
-        return movieGroupRepository.findByMovieId(id);
-    }
-*/
+
     public MovieGroup findById(UUID id){
         return movieGroupRepository.findById(id);
     }

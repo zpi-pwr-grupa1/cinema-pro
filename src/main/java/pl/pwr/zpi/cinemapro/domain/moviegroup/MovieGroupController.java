@@ -24,17 +24,7 @@ public class MovieGroupController {
     public List<MovieGroup> getAllmovieGroups() {
         return movieGroupService.findAll();
     }
-/*
-    @RequestMapping(value = "/get/allmovie/{id}", method = RequestMethod.GET)
-    public List<MovieGroup> getMoviemovieGroups(@PathVariable(value = "id") UUID id) {
-        return movieGroupService.findByMovieId(id);
-    }
-    
-    @RequestMapping(value = "/get/allclient/{id}", method = RequestMethod.GET)
-    public List<MovieGroup> getClientmovieGroups(@PathVariable(value = "id") UUID id) {
-        return movieGroupService.findByClientId(id);
-    }
-*/
+
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         MovieGroup movieGroup = movieGroupService.findById(id);
