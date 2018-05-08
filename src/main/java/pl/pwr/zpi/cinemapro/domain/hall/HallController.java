@@ -52,7 +52,7 @@ public class HallController {
         }
         hall.setVisible(true);
         hallService.save(hall);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(hall.getId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
