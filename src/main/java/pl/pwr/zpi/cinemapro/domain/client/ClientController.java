@@ -10,6 +10,7 @@ import pl.pwr.zpi.cinemapro.common.util.DTO;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/client")
@@ -21,6 +22,15 @@ public class ClientController {
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Client> getAllClients() {
         return clientService.findAll();
+    }
+    
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
+        Client client = clientService.findById(id);
+        if (client == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(client);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
