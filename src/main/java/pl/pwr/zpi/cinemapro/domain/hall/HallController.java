@@ -11,10 +11,7 @@ import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/hall")
@@ -43,6 +40,20 @@ public class HallController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(hall);
+    }
+
+    @RequestMapping(value = "get/{id}/columnsandrows", method = RequestMethod.GET)
+    public ResponseEntity getColumnsAndRows(@PathVariable(value = "id") UUID id) {
+        Hall hall = hallService.findById(id);
+        if (hall == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        Set<Seat> seats = hall.getSeats();
+
+        int rowsCount = seats.stream().map(s -> s.getSeatRow()).max(Comparator.naturalOrder()).get() + 1;
+        int columnsCount = seats.stream().map(s -> s.getSeatColumn()).max(Comparator.naturalOrder()).get() + 1;
+        ColumnsRowsForm columnsRowsForm = new ColumnsRowsForm(rowsCount, columnsCount);
+        return new ResponseEntity<>(columnsRowsForm, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
