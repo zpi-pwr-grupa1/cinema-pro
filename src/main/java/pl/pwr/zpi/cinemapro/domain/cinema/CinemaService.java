@@ -7,10 +7,10 @@ import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CinemaService {
@@ -75,6 +75,30 @@ public class CinemaService {
             showingsInCinema.addAll(showingsInHall);
         }
         return showingsInCinema;
+    }
+
+    public List<Showing> findShowingsOnDate(UUID cinemaId, Date date) {
+        List<Showing> showingsInCinema = findShowingsById(cinemaId);
+        Date dateWithoutTime = getDateWithoutTime(date);
+        List<Showing> showingsOnDate =
+                showingsInCinema.stream()
+                .filter(showing -> getDateWithoutTime(showing.getScreeningStart()).equals(dateWithoutTime))
+                .sorted(Comparator.comparing(Showing::getScreeningStart))
+                .collect(Collectors.toList());
+        return showingsOnDate;
+    }
+
+    private Date getDateWithoutTime(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateWithoutTime = date;
+        try {
+            dateWithoutTime = sdf.parse(sdf.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateWithoutTime;
+
+
     }
 
 }

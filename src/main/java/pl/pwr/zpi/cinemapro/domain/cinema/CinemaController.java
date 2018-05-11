@@ -2,6 +2,7 @@ package pl.pwr.zpi.cinemapro.domain.cinema;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import pl.pwr.zpi.cinemapro.domain.hall.HallService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +74,16 @@ public class CinemaController {
     @RequestMapping(value = "get/{id}/showings/planned", method = RequestMethod.GET)
     public ResponseEntity getPlannedShowings(@PathVariable(value = "id") UUID id) {
         List<Showing> showings = cinemaService.findPlannedShowingsById(id);
+        if (showings == null || showings.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(showings);
+    }
+
+    @RequestMapping(value = "get/{id}/showings/{date}", method = RequestMethod.GET)
+    public ResponseEntity getShowingsOnDay(@PathVariable(value = "id") UUID cinemaId,
+                                           @PathVariable(value= "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+        List<Showing> showings = cinemaService.findShowingsOnDate(cinemaId, date);
         if (showings == null || showings.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
