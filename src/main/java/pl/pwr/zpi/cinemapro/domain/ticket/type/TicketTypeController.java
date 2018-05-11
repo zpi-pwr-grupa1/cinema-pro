@@ -43,8 +43,7 @@ public class TicketTypeController {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         ticketType.setVisible(true);
-        ticketTypeService.save(ticketType);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(ticketTypeService.save(ticketType), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)

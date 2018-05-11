@@ -32,7 +32,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                //FIXME
                 .antMatchers(HttpMethod.GET, "/api/cinema/get/all/visible").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings/planned").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/client/update").permitAll()
                 .anyRequest().authenticated()
                 .and()
