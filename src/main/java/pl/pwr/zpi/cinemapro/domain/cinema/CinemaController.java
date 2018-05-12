@@ -9,14 +9,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
+import pl.pwr.zpi.cinemapro.domain.hall.HallController;
 import pl.pwr.zpi.cinemapro.domain.hall.HallForm;
 import pl.pwr.zpi.cinemapro.domain.hall.HallService;
+import pl.pwr.zpi.cinemapro.domain.seat.Seat;
+import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/cinema")
@@ -27,6 +28,9 @@ public class CinemaController {
 
     @Autowired
     HallService hallService;
+
+    @Autowired
+    SeatService seatService;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Cinema> getAllCinemas() {
@@ -118,9 +122,11 @@ public class CinemaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}/put/hall", method = RequestMethod.PUT)
-    public ResponseEntity addHallToCinema(@Valid @RequestBody @DTO(HallForm.class) Hall hall,
-                                  @PathVariable(value ="id") UUID cinemaId, BindingResult result) {
+    @RequestMapping(value = "{id}/put/hall/{columns}/{rows}", method = RequestMethod.PUT)
+    public ResponseEntity addHallToCinema(@Valid @RequestBody @DTO(HallForm.class) Hall hall,@PathVariable(value ="id") UUID cinemaId,
+                                          @PathVariable(value = "columns") int columnsCount,
+                                          @PathVariable(value = "rows") int rowsCount,
+                                          BindingResult result) {
         Cinema cinema = cinemaService.findById(cinemaId);
         hall.setCinema(cinema);
         hall.setVisible(true);
@@ -128,6 +134,9 @@ public class CinemaController {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         cinemaService.save(cinema);
+        hallService.save(hall);
+        Set<Seat> seats = new HashSet<>(seatService.createSeats(columnsCount, rowsCount));
+        hall.setSeats(seats);
         hallService.save(hall);
         return new ResponseEntity<>(HttpStatus.OK);
     }
