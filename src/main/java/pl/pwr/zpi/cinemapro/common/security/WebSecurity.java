@@ -36,6 +36,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/cinema/get/all/visible").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings/planned").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/ticket/type/get/all/visible").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/client/update").permitAll()
                 .antMatchers(HttpMethod.GET, "/v2/api-docs/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger.json").permitAll()
