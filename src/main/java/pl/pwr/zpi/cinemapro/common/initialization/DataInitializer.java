@@ -103,6 +103,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m1.setRunTime(144);
         m1.setStoryline("Something with robots and EXPLOSIONSSSS!!!");
         m1.setTitle("Transformers");
+        m1.setImgURL("/assets/images/movies/transformers.jpg");
         m1.setVisible(true);
         m1.setGroups(Sets.newHashSet(g1, g2));
 
@@ -116,19 +117,21 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m2.setRunTime(120);
         m2.setStoryline("Something with hamsters and DUMPSTERS!!!");
         m2.setTitle("Hamstermers");
+        m2.setImgURL("/assets/images/movies/noposter.jpg");
         m2.setVisible(true);
         m2.setGroups(Sets.newHashSet(g1));
 
         Movie m3 = new Movie();
-        m3.setAge("PG-13");
-        m3.setCountry("GB");
-        m3.setDirector("John Watson");
-        m3.setMovieCast("Scherlock Holmes, Doctor Moriarty");
+        m3.setAge("PG-12");
+        m3.setCountry("USA");
+        m3.setDirector("Jon Watts");
+        m3.setMovieCast("Tom Holland, Michael Keaton, Robert Downey Jr., Zendaya");
         m3.setPolishReleaseDate(new Date());
         m3.setWorldReleaseDate(new Date());
-        m3.setRunTime(120);
-        m3.setStoryline("Tale of fascinating intrigue.");
-        m3.setTitle("Holmriarty");
+        m3.setRunTime(133);
+        m3.setStoryline("Peter Parker balances his life as an ordinary high school student in Queens with his superhero alter-ego Spider-Man, and finds himself on the trail of a new menace prowling the skies of New York City.");
+        m3.setTitle("Spider-Man: Homecoming");
+        m3.setImgURL("/assets/images/movies/spiderman.jpg");
         m3.setVisible(true);
         m3.setGroups(Sets.newHashSet(g2));
 
