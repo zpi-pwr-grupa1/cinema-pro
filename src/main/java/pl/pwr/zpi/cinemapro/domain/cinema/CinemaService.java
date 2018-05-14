@@ -6,6 +6,8 @@ import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.showing.ShowingRepository;
+import pl.pwr.zpi.cinemapro.domain.employee.Employee;
+import pl.pwr.zpi.cinemapro.domain.employee.EmployeeRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,9 @@ public class CinemaService {
 
     @Autowired
     ShowingRepository showingRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     public List<Cinema> findAll() {
         return cinemaRepository.findAll();
@@ -86,6 +91,10 @@ public class CinemaService {
                 .sorted(Comparator.comparing(Showing::getScreeningStart))
                 .collect(Collectors.toList());
         return showingsOnDate;
+    }
+
+    public List<Employee> findEmployeesById(UUID cinemaId){
+        return employeeRepository.findByCinemaId(cinemaId);
     }
 
     private Date getDateWithoutTime(Date date) {

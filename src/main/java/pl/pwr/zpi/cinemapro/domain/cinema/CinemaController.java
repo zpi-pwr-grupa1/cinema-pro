@@ -15,6 +15,7 @@ import pl.pwr.zpi.cinemapro.domain.hall.HallService;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
+import pl.pwr.zpi.cinemapro.domain.employee.Employee;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -155,5 +156,14 @@ public class CinemaController {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void constraintViolation() {
 
+    }
+
+    @RequestMapping(value = "get/{id}/employees", method = RequestMethod.GET)
+    public ResponseEntity getEmployees(@PathVariable(value = "id") UUID id) {
+        List<Employee> employees = cinemaService.findEmployeesById(id);
+        if (employees == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(employees);
     }
 }
