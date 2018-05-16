@@ -7,10 +7,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +31,16 @@ public class ShowingController {
     public List<Showing> getAllPlanned(){
         Date currentDate = new Date();
         return showingService.findAfter(currentDate);
+    }
+
+    @RequestMapping(value = "/get/{id}/seats/taken", method = RequestMethod.GET)
+    public ResponseEntity getReservedSeats(@PathVariable(value = "id") UUID id) {
+        Showing showing = showingService.findById(id);
+        if (showing == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<Seat> seats = showingService.findTakenSeats(showing);
+        return ResponseEntity.ok(seats);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)

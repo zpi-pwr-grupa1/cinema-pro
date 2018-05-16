@@ -2,16 +2,26 @@ package pl.pwr.zpi.cinemapro.domain.showing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
+import pl.pwr.zpi.cinemapro.domain.reservation.ReservationRepository;
+import pl.pwr.zpi.cinemapro.domain.reservation.ReservationService;
+import pl.pwr.zpi.cinemapro.domain.seat.Seat;
+import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowingService {
 
     @Autowired
     ShowingRepository showingRepository;
+
+    @Autowired
+    ReservationService reservationService;
 
     public List<Showing> findAll() {
         return showingRepository.findAll();
@@ -23,6 +33,15 @@ public class ShowingService {
 
     public Showing findById(UUID id) {
         return showingRepository.findById(id);
+    }
+
+    public List<Seat> findTakenSeats(Showing showing) {
+        List<Reservation> reservations = reservationService.findByShowingId(showing.getId());
+        List<Seat> seats = reservations.stream()
+                .flatMap(r -> r.getTickets().stream())
+                .map(t -> t.getSeat())
+                .collect(Collectors.toList());
+        return seats;
     }
 
     public Showing save(Showing showing) {

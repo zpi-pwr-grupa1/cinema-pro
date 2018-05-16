@@ -7,9 +7,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -31,6 +33,15 @@ public class ClientController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(client);
+    }
+
+    @RequestMapping(value = "get/{id}/reservations", method = RequestMethod.GET)
+    public ResponseEntity getReservations(@PathVariable(value = "id") UUID id){
+        List<Reservation> reservations = clientService.getReservationsByClientId(id);
+        if (reservations == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(reservations);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroup;
+import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
 
 @Entity
 @Table
@@ -31,5 +32,9 @@ public class Client {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_group_id")
     private Set<MovieGroup> groups;
-    
+
+    @OneToMany
+    @JsonIgnore
+    @JoinColumn(name = "client_id")
+    private Set<Reservation> reservations;
 }

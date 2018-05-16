@@ -12,6 +12,8 @@ import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 import pl.pwr.zpi.cinemapro.domain.movie.MovieRepository;
+import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
+import pl.pwr.zpi.cinemapro.domain.reservation.ReservationRepository;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
@@ -63,6 +65,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -323,7 +328,12 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         cl3.setPassword("password3");
         cl3.setBirthDate(new Date());
 
-        
+        Reservation r1 = new Reservation();
+        r1.setShowing(s1);
+        Set<Ticket> tickets = new HashSet<>(Arrays.asList(t1));
+        r1.setTickets(tickets);
+        r1.setClient(cl1);
+
         groupRepository.saveAll(Lists.newArrayList(g1, g2));
         clientRepository.saveAll(Lists.newArrayList(cl1, cl2, cl3));
         movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));        
@@ -333,6 +343,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
         ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
         employeeRepository.saveAll(Lists.newArrayList(e1, e2));
+        reservationRepository.saveAll(Lists.newArrayList(r1));
     }
 
 }
