@@ -51,6 +51,31 @@ public class TicketController {
         ticketService.delete(ticket);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/isbought/{id}", method = RequestMethod.GET)
+    public ResponseEntity isBoughtTicketByID(@PathVariable(value = "id") UUID id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (ticket.isPaid() == false){
+            return ResponseEntity.ok("false");
+        }
+        return ResponseEntity.ok("true");
+    }
+    
+    @RequestMapping(value = "/buy/{id}", method = RequestMethod.POST)
+    public ResponseEntity buyTicketByID(@PathVariable(value = "id") UUID id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (ticket.isPaid() == false){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        ticket.setPrice(ticket.getTicketType().getPrice());
+        return ResponseEntity.ok(ticket);
+    }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
     @ExceptionHandler(DataIntegrityViolationException.class)

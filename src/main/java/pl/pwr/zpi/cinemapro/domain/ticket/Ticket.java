@@ -1,13 +1,12 @@
 package pl.pwr.zpi.cinemapro.domain.ticket;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
 
 import javax.persistence.*;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table
@@ -24,4 +23,11 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
     private TicketType ticketType;
+    
+    @Column (nullable = false)
+    @Value("true")
+    private boolean paid;
+    
+    @Column (nullable = true)
+    private double price;
     }
