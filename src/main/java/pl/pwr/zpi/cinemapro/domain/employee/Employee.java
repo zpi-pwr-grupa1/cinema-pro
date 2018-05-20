@@ -11,13 +11,15 @@ import javax.validation.constraints.Email;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import pl.pwr.zpi.cinemapro.domain.cinema.Cinema;
+import pl.pwr.zpi.cinemapro.domain.user.User;
 
 @Entity
 @Table
 @Data
+@DiscriminatorValue("EMPLOYEE")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+public class Employee extends User {
 
     @Id
     @GeneratedValue
@@ -28,10 +30,6 @@ public class Employee {
     
     @Column(nullable = false)
     private String surname;
-    
-    @Email
-    @Column(unique = true, nullable = false)
-    private String email;
     
     @Column(nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)

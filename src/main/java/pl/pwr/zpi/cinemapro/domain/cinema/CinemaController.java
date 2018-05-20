@@ -5,17 +5,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
+import pl.pwr.zpi.cinemapro.domain.employee.Employee;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
-import pl.pwr.zpi.cinemapro.domain.hall.HallController;
 import pl.pwr.zpi.cinemapro.domain.hall.HallForm;
 import pl.pwr.zpi.cinemapro.domain.hall.HallService;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.seat.SeatService;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
-import pl.pwr.zpi.cinemapro.domain.employee.Employee;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -38,11 +38,13 @@ public class CinemaController {
         return cinemaService.findAll();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
     public List<Cinema> getVisibleCinemas() {
         return cinemaService.findAllVisible();
     }
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Cinema cinema = cinemaService.findById(id);

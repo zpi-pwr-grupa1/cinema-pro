@@ -4,23 +4,28 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
-@Entity
 @Table(name = "ApplicationUser")
 @Data
-public class User {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "USER_TYPE")
+public abstract class User {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column
-    @Length(min=1)
-    private String username;
+    @Email
+    @Column(unique = true, nullable = false)
+    @NotEmpty
+    private String email;
 
-    @Column
-    @Length(min=1)
+    @Column(nullable = false)
+    @NotEmpty
     private String password;
 
 }

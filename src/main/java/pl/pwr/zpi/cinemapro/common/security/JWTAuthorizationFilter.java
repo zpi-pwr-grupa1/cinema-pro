@@ -4,6 +4,8 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -19,9 +21,11 @@ import static pl.pwr.zpi.cinemapro.common.security.SecurityConstants.TOKEN_PREFI
 
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+    private UserDetailsService userDetailsService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    public JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
         super(authManager);
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -52,7 +56,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                UserDetails ud =this.userDetailsService.loadUserByUsername(user);
+                return new UsernamePasswordAuthenticationToken(user, null, ud.getAuthorities());
             }
             return null;
         }

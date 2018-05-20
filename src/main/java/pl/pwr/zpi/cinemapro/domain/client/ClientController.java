@@ -3,6 +3,7 @@ package pl.pwr.zpi.cinemapro.domain.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +21,9 @@ public class ClientController {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Client> getAllClients() {
@@ -49,7 +53,8 @@ public class ClientController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-            clientService.save(client);
+        client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
+        clientService.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
