@@ -7,12 +7,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.pwr.zpi.cinemapro.domain.admin.Admin;
+import pl.pwr.zpi.cinemapro.domain.admin.AdminRepository;
 import pl.pwr.zpi.cinemapro.domain.cinema.Cinema;
 import pl.pwr.zpi.cinemapro.domain.cinema.CinemaRepository;
+import pl.pwr.zpi.cinemapro.domain.client.Client;
+import pl.pwr.zpi.cinemapro.domain.client.ClientRepository;
+import pl.pwr.zpi.cinemapro.domain.employee.Employee;
+import pl.pwr.zpi.cinemapro.domain.employee.EmployeeRepository;
 import pl.pwr.zpi.cinemapro.domain.hall.Hall;
 import pl.pwr.zpi.cinemapro.domain.hall.HallRepository;
 import pl.pwr.zpi.cinemapro.domain.movie.Movie;
 import pl.pwr.zpi.cinemapro.domain.movie.MovieRepository;
+import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroup;
+import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroupRepository;
 import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
 import pl.pwr.zpi.cinemapro.domain.reservation.ReservationRepository;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
@@ -25,12 +33,6 @@ import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketTypeRepository;
 
 import java.util.*;
-import pl.pwr.zpi.cinemapro.domain.employee.Employee;
-import pl.pwr.zpi.cinemapro.domain.employee.EmployeeRepository;
-import pl.pwr.zpi.cinemapro.domain.client.Client;
-import pl.pwr.zpi.cinemapro.domain.client.ClientRepository;
-import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroup;
-import pl.pwr.zpi.cinemapro.domain.moviegroup.MovieGroupRepository;
 
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
@@ -58,7 +60,10 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     @Autowired
     private SeatService seatService;
-    
+
+    @Autowired
+    private AdminRepository adminRepository;
+
     @Autowired
     private EmployeeRepository employeeRepository;
     
@@ -334,6 +339,10 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         cl3.setPassword("password3");
         cl3.setBirthDate(new Date());
 
+        Admin a1 = new Admin();
+        a1.setEmail("admin@example.com");
+        a1.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+
         Reservation r1 = new Reservation();
         r1.setShowing(s1);
         Set<Ticket> tickets = new HashSet<>(Arrays.asList(t1));
@@ -350,6 +359,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
         employeeRepository.saveAll(Lists.newArrayList(e1));
         reservationRepository.saveAll(Lists.newArrayList(r1));
+        adminRepository.saveAll(Lists.newArrayList(a1));
     }
 
 }
