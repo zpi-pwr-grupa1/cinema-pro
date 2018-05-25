@@ -33,6 +33,15 @@ public class ShowingController {
         return showingService.findAfter(currentDate);
     }
 
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
+        Showing showing = showingService.findById(id);
+        if (showing == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(showing);
+    }
+
     @RequestMapping(value = "/get/{id}/seats/taken", method = RequestMethod.GET)
     public ResponseEntity getReservedSeats(@PathVariable(value = "id") UUID id) {
         Showing showing = showingService.findById(id);

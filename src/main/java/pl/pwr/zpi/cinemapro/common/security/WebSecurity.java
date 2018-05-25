@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import static pl.pwr.zpi.cinemapro.common.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -29,27 +31,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                //FIXME
-                .antMatchers(HttpMethod.GET, "/api/cinema/get/all/visible").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/cinema/get/{id}/showings/planned").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/ticket/type/get/all/visible").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/client/update").permitAll()
-                .antMatchers(HttpMethod.GET, "/v2/api-docs/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger.json").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger.json").permitAll()
-                .antMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/webjars/**").permitAll()
-                .anyRequest().authenticated()
+        http
+                    .cors()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                // this disables session creation on Spring Security
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .and()
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                    .addFilter(new JWTAuthorizationFilter(authenticationManager(), this.userDetailsService))
+                    // this disables session creation on Spring Security
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
