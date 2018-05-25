@@ -27,5 +27,5 @@ public class TicketService {
     public void delete(Ticket ticket) {
         ticketRepository.delete(ticket);
     }
-
+    
 }

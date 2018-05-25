@@ -69,4 +69,18 @@ public class ReservationController {
         }
         return ResponseEntity.ok(tickets);
     }
+    
+    @RequestMapping(value = "/buy/{id}/all", method = RequestMethod.POST)
+    public ResponseEntity buyAllTicketsFromReservation(@PathVariable(value = "id") UUID id){
+        Set<Ticket> tickets = reservationService.findTicketsById(id);
+        if (tickets == null || tickets.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        double sum = 0.0;
+        sum = tickets.stream().map((t) -> {
+            t.setPrice(t.getTicketType().getPrice());
+            return t;
+        }).map((t) -> t.getPrice()).reduce(sum, (accumulator, _item) -> accumulator + _item);
+        return ResponseEntity.ok(sum);
+    }
 }
