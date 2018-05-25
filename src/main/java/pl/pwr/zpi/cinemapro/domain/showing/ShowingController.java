@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
+import pl.pwr.zpi.cinemapro.domain.seat.ShowingSeatForm;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -40,6 +41,15 @@ public class ShowingController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(showing);
+    }
+    @RequestMapping(value = "/get/{id}/seats", method = RequestMethod.GET)
+    public ResponseEntity getSeats(@PathVariable(value = "id") UUID id) {
+        Showing showing = showingService.findById(id);
+        if (showing == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<ShowingSeatForm> seats = showingService.getSeats(showing);
+        return ResponseEntity.ok(seats);
     }
 
     @RequestMapping(value = "/get/{id}/seats/taken", method = RequestMethod.GET)

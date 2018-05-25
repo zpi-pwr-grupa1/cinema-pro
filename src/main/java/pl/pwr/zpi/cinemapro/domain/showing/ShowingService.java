@@ -6,12 +6,10 @@ import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
 import pl.pwr.zpi.cinemapro.domain.reservation.ReservationRepository;
 import pl.pwr.zpi.cinemapro.domain.reservation.ReservationService;
 import pl.pwr.zpi.cinemapro.domain.seat.Seat;
+import pl.pwr.zpi.cinemapro.domain.seat.ShowingSeatForm;
 import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +40,24 @@ public class ShowingService {
                 .map(t -> t.getSeat())
                 .collect(Collectors.toList());
         return seats;
+    }
+
+    public List<ShowingSeatForm> getSeats(Showing showing) {
+        Set<Seat> seats = showing.getHall().getSeats();
+        List<Reservation> reservations = reservationService.findByShowingId(showing.getId());
+        List<Seat> takenSeats = reservations.stream()
+                .flatMap(r -> r.getTickets().stream())
+                .map(t -> t.getSeat())
+                .collect(Collectors.toList());
+
+        List<ShowingSeatForm> showingSeatForms = new LinkedList<>();
+
+        for (Seat seat : seats) {
+            boolean taken = takenSeats.stream().anyMatch(s -> s.getId().equals(seat.getId()));
+            ShowingSeatForm showingSeatForm = new ShowingSeatForm(seat.getId(), seat.getSeatRow(), seat.getSeatColumn(), taken);
+            showingSeatForms.add(showingSeatForm);
+        }
+        return showingSeatForms;
     }
 
     public Showing save(Showing showing) {
