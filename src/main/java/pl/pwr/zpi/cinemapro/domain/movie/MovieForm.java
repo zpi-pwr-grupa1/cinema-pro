@@ -15,7 +15,7 @@ import java.util.Date;
 public class MovieForm {
 
     @NotNull
-    @Length(min=1)
+    @Length(min=1, max=255)
     private String title;
 
     private String age;
@@ -27,13 +27,16 @@ public class MovieForm {
     private Date polishReleaseDate;
     
     private Date worldReleaseDate;
-    
+
+    @Length(max=255)
     private String storyline;
     
     private String imgURL;
-    
+
+    @Length(max=255)
     private String director;
-    
+
+    @Length(max=255)
     private String movieCast;
     
     @NotNull
