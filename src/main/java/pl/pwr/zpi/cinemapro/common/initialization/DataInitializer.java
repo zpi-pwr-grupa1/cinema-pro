@@ -253,32 +253,46 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         h2.setVisible(true);
 
         Hall h3 = new Hall();
-        h3.setHallNumber(1);
+        h3.setHallNumber(3);
         HashSet<Seat> seats3 = new HashSet<>(seatService.createSeats(15, 20));
         h3.setSeats(seats3);
         h3.setCinema(c1);
         h3.setVisible(true);
 
         Hall h4 = new Hall();
-        h4.setHallNumber(2);
+        h4.setHallNumber(4);
         HashSet<Seat> seats4 = new HashSet<>(seatService.createSeats(14, 13));
         h4.setSeats(seats4);
         h4.setCinema(c1);
         h4.setVisible(true);
 
         Hall h5 = new Hall();
-        h5.setHallNumber(12);
+        h5.setHallNumber(11);
         HashSet<Seat> seats5 = new HashSet<>(seatService.createSeats(14, 13));
         h5.setSeats(seats5);
-        h5.setCinema(c3);
+        h5.setCinema(c2);
         h5.setVisible(true);
 
         Hall h6 = new Hall();
         h6.setHallNumber(12);
         HashSet<Seat> seats6 = new HashSet<>(seatService.createSeats(14, 13));
-        h6.setSeats(seats5);
+        h6.setSeats(seats6);
         h6.setCinema(c2);
         h6.setVisible(true);
+
+        Hall h7 = new Hall();
+        h7.setHallNumber(1);
+        HashSet<Seat> seats7 = new HashSet<>(seatService.createSeats(14, 13));
+        h7.setSeats(seats7);
+        h7.setCinema(c3);
+        h7.setVisible(true);
+
+        Hall h8 = new Hall();
+        h8.setHallNumber(2);
+        HashSet<Seat> seats8 = new HashSet<>(seatService.createSeats(14, 13));
+        h8.setSeats(seats8);
+        h8.setCinema(c3);
+        h8.setVisible(true);
 
         Ticket t1 = new Ticket();
         Seat seat = seats.iterator().next();

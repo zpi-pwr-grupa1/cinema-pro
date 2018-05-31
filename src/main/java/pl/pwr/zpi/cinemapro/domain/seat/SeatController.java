@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
@@ -19,16 +20,19 @@ public class SeatController {
     @Autowired
     SeatService seatService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Seat> getAllSeats() {
         return seatService.findAll();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
     public List<Seat> getVisibleSeats() {
         return seatService.findAllVisible();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Seat seat = seatService.findById(id);
@@ -38,6 +42,7 @@ public class SeatController {
         return ResponseEntity.ok(seat);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerOrUpdateSeat(@Valid @RequestBody @DTO(SeatForm.class) Seat seat, BindingResult result) {
         if (result.hasErrors()) {
@@ -48,6 +53,7 @@ public class SeatController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteSeat(@PathVariable(value = "id") UUID id) {
         Seat seat = seatService.findById(id);
