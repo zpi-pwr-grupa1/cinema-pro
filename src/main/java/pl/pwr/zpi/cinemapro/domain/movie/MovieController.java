@@ -3,6 +3,7 @@ package pl.pwr.zpi.cinemapro.domain.movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,16 +20,19 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Movie> getAllMovies() {
         return movieService.findAll();
     }
-    
+
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
     public List<Movie> getVisibleMovies() {
         return movieService.findAllVisible();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerMovie(@Valid @RequestBody @DTO(MovieForm.class) Movie movie, BindingResult result) {
         if (result.hasErrors()) {
@@ -39,6 +43,7 @@ public class MovieController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Movie movie = movieService.findById(id);
@@ -48,6 +53,7 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteMovie(@PathVariable(value = "id") UUID id) {
             Movie movie = movieService.findById(id);

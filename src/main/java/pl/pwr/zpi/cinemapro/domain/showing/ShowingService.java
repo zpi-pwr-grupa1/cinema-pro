@@ -57,6 +57,9 @@ public class ShowingService {
             ShowingSeatForm showingSeatForm = new ShowingSeatForm(seat.getId(), seat.getSeatRow(), seat.getSeatColumn(), taken);
             showingSeatForms.add(showingSeatForm);
         }
+
+        Comparator<ShowingSeatForm> comparator = Comparator.comparing(ShowingSeatForm::getSeatColumn).thenComparing(ShowingSeatForm::getSeatRow);
+        showingSeatForms = showingSeatForms.stream().sorted(comparator).collect(Collectors.toList());
         return showingSeatForms;
     }
 

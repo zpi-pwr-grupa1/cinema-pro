@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
@@ -23,16 +24,19 @@ public class HallController {
     @Autowired
     SeatService seatsService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Hall> getAllhalls() {
         return hallService.findAll();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
     public List<Hall> getVisiblehalls() {
         return hallService.findAllVisible();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Hall hall = hallService.findById(id);
@@ -42,6 +46,7 @@ public class HallController {
         return ResponseEntity.ok(hall);
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "get/{id}/columnsandrows", method = RequestMethod.GET)
     public ResponseEntity getColumnsAndRows(@PathVariable(value = "id") UUID id) {
         Hall hall = hallService.findById(id);
@@ -56,6 +61,7 @@ public class HallController {
         return new ResponseEntity<>(columnsRowsForm, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerOrUpdatehall(@Valid @RequestBody @DTO(HallForm.class) Hall hall, BindingResult result) {
         if (result.hasErrors()) {
@@ -66,6 +72,7 @@ public class HallController {
         return new ResponseEntity<>(hall.getId(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deletehall(@PathVariable(value = "id") UUID id) {
         Hall hall = hallService.findById(id);
@@ -76,11 +83,7 @@ public class HallController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public void constraintViolation() {
-    }
-    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(
             value = "/createseats",
             params = { "id" , "rows", "columns"},
@@ -97,5 +100,10 @@ public class HallController {
         hall.setSeats(seats);
         hallService.save(hall);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void constraintViolation() {
     }
 }

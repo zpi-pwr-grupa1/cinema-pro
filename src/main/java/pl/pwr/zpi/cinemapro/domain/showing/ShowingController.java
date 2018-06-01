@@ -3,6 +3,7 @@ package pl.pwr.zpi.cinemapro.domain.showing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,17 +24,20 @@ public class ShowingController {
     @Autowired
     ShowingService showingService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Showing> getAllShowings() {
         return showingService.findAll();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value="/get/all/planned", method = RequestMethod.GET)
     public List<Showing> getAllPlanned(){
         Date currentDate = new Date();
         return showingService.findAfter(currentDate);
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Showing showing = showingService.findById(id);
@@ -42,6 +46,8 @@ public class ShowingController {
         }
         return ResponseEntity.ok(showing);
     }
+
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/{id}/seats", method = RequestMethod.GET)
     public ResponseEntity getSeats(@PathVariable(value = "id") UUID id) {
         Showing showing = showingService.findById(id);
@@ -52,6 +58,7 @@ public class ShowingController {
         return ResponseEntity.ok(seats);
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/{id}/seats/taken", method = RequestMethod.GET)
     public ResponseEntity getReservedSeats(@PathVariable(value = "id") UUID id) {
         Showing showing = showingService.findById(id);
@@ -62,6 +69,7 @@ public class ShowingController {
         return ResponseEntity.ok(seats);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteShowing(@PathVariable(value = "id") UUID id) {
         Showing showing = showingService.findById(id);
@@ -72,6 +80,7 @@ public class ShowingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity addShowing(@Valid @RequestBody @DTO(ShowingForm.class) Showing showing, BindingResult result) {
         if (result.hasErrors() || showing.getId() == null && showingService.existsOverlappingShowing(showing)){
