@@ -182,6 +182,30 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         c3.setEmail("email2@email.com");
         c3.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
         c3.setVisible(true);
+        
+        Cinema c4 = new Cinema();
+        c4.setName("CinemaPro Legnicka");
+        c4.setStreet("Legnicka");
+        c4.setStreetNumber("15");
+        c4.setPostCode("11-222");
+        c4.setCity("Wroclaw");
+        c4.setDescription("Test description");
+        c4.setTelephone("71111222");
+        c4.setEmail("email3@email.com");
+        c4.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
+        c4.setVisible(true);
+        
+        Cinema c5 = new Cinema();
+        c5.setName("CinemaPro Legnicka");
+        c5.setStreet("Legnicka");
+        c5.setStreetNumber("15");
+        c5.setPostCode("11-222");
+        c5.setCity("Wroclaw");
+        c5.setDescription("Test description");
+        c5.setTelephone("71111222");
+        c5.setEmail("email4@email.com");
+        c5.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
+        c5.setVisible(true);
 
         Hall h1 = new Hall();
         h1.setHallNumber(1);
@@ -321,6 +345,77 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         e2.setStreetNumber("17/8");
         e2.setTelephone("777888777");
         e2.setCinema(c1);
+        e2.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+        
+        Employee e3 = new Employee();
+        cal.set(2001, 1, 1, 13, 15, 00);
+        e3.setStartingDateOfEmployment(cal.getTime());
+        e3.setName("Józef");
+        e3.setSurname("Małec");
+        e3.setEmail("j.malec@email.com");
+        e3.setCity("Wroclaw");
+        e3.setStreet("Prosta");
+        e3.setPostCode("55-535");
+        e3.setStreetNumber("17/8");
+        e3.setTelephone("777888777");
+        e3.setCinema(c1);
+        e3.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+        
+        Employee e4 = new Employee();
+        cal.set(2002, 1, 1, 13, 15, 00);
+        e4.setStartingDateOfEmployment(cal.getTime());
+        e4.setName("Karol");
+        e4.setSurname("Wikary");
+        e4.setEmail("k.wikary@email.com");
+        e4.setCity("Wroclaw");
+        e4.setStreet("Prosta");
+        e4.setPostCode("55-535");
+        e4.setStreetNumber("17/8");
+        e4.setTelephone("777888777");
+        e4.setCinema(c2);
+        e4.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+        
+        Employee e5 = new Employee();
+        cal.set(2003, 1, 1, 13, 15, 00);
+        e5.setStartingDateOfEmployment(cal.getTime());
+        e5.setName("Karolina");
+        e5.setSurname("Wiśnia");
+        e5.setEmail("k.wisnia@email.com");
+        e5.setCity("Wroclaw");
+        e5.setStreet("Prosta");
+        e5.setPostCode("55-535");
+        e5.setStreetNumber("17/8");
+        e5.setTelephone("777888777");
+        e5.setCinema(c2);
+        e5.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+        
+        Employee e6 = new Employee();
+        cal.set(1999, 1, 1, 13, 15, 00);
+        e6.setStartingDateOfEmployment(cal.getTime());
+        e6.setName("Róża");
+        e6.setSurname("Kowalska");
+        e6.setEmail("r.kowalska@email.com");
+        e6.setCity("Wroclaw");
+        e6.setStreet("Prosta");
+        e6.setPostCode("55-535");
+        e6.setStreetNumber("17/8");
+        e6.setTelephone("777888777");
+        e6.setCinema(c2);
+        e6.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+        
+        Employee e7 = new Employee();
+        cal.set(1999, 1, 1, 13, 15, 00);
+        e7.setStartingDateOfEmployment(cal.getTime());
+        e7.setName("Oliwia");
+        e7.setSurname("Opalska");
+        e7.setEmail("o.opalska@email.com");
+        e7.setCity("Wroclaw");
+        e7.setStreet("Prosta");
+        e7.setPostCode("55-535");
+        e7.setStreetNumber("17/8");
+        e7.setTelephone("777888777");
+        e7.setCinema(c2);
+        e7.setPassword(bCryptPasswordEncoder.encode("haslo123"));
         
         Client cl1 = new Client();
         cl1.setEmail("user1@email.com");
@@ -352,12 +447,12 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         groupRepository.saveAll(Lists.newArrayList(g1, g2));
         clientRepository.saveAll(Lists.newArrayList(cl1));
         movieRepository.saveAll(Lists.newArrayList(m1, m2, m3));        
-        cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3));
+        cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3, c4, c5));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
         ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
         ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
-        employeeRepository.saveAll(Lists.newArrayList(e1));
+        employeeRepository.saveAll(Lists.newArrayList(e1, e2, e3, e4, e5, e6, e7));
         reservationRepository.saveAll(Lists.newArrayList(r1));
         adminRepository.saveAll(Lists.newArrayList(a1));
     }
