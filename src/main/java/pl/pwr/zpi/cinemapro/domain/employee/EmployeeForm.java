@@ -33,7 +33,6 @@ public class EmployeeForm {
     
     @NotNull
     private Date startingDateOfEmployment;
-
     
     @NotNull
     @Length(min=1)
