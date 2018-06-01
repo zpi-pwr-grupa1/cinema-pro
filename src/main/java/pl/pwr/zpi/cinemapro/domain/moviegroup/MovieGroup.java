@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Value;
 
 @Entity
@@ -21,6 +22,7 @@ public class MovieGroup {
     private UUID id;
 
     @Column(nullable = false)
+    @Length(min = 1)
     private String label;
     
     @Column(nullable = false)

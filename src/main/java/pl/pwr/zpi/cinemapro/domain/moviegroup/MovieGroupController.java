@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
@@ -20,11 +21,13 @@ public class MovieGroupController {
     @Autowired
     MovieGroupService movieGroupService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<MovieGroup> getAllmovieGroups() {
         return movieGroupService.findAll();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         MovieGroup movieGroup = movieGroupService.findById(id);
@@ -34,6 +37,7 @@ public class MovieGroupController {
         return ResponseEntity.ok(movieGroup);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity registerOrUpdatemovieGroup(@Valid @RequestBody @DTO(MovieGroupForm.class) MovieGroup movieGroup, BindingResult result) {
         if (result.hasErrors()) {
@@ -43,6 +47,7 @@ public class MovieGroupController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deletemovieGroup(@PathVariable(value = "id") UUID id) {
         MovieGroup movieGroup = movieGroupService.findById(id);
