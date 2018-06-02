@@ -87,11 +87,11 @@ public class CinemaController {
     }
 
     @RequestMapping(value = "get/{id}/showings/{date}", method = RequestMethod.GET)
-    public ResponseEntity getShowingsOnDay(@PathVariable(value = "id") UUID cinemaId,
+    public ResponseEntity getShowingsOnDay(@PathVariable(value = "id")   UUID cinemaId,
                                            @PathVariable(value= "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
         List<Showing> showings = cinemaService.findShowingsOnDate(cinemaId, date);
         if (showings == null || showings.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            showings = new ArrayList<>();
         }
         return ResponseEntity.ok(showings);
     }
