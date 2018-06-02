@@ -44,7 +44,6 @@ public class CinemaController {
         return cinemaService.findAllVisible();
     }
 
-    @PreAuthorize("hasAuthority('CLIENT')")
     @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
     public ResponseEntity getById(@PathVariable(value = "id") UUID id) {
         Cinema cinema = cinemaService.findById(id);

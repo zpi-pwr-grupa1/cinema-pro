@@ -239,27 +239,27 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         c3.setVisible(true);
         
         Cinema c4 = new Cinema();
-        c4.setName("CinemaPro Legnicka");
-        c4.setStreet("Legnicka");
-        c4.setStreetNumber("15");
-        c4.setPostCode("11-222");
-        c4.setCity("Wroclaw");
-        c4.setDescription("Test description");
-        c4.setTelephone("71111222");
-        c4.setEmail("email3@email.com");
-        c4.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
+        c4.setName("CinemaPro Łęczna");
+        c4.setStreet("Orląt Lwowskich");
+        c4.setStreetNumber("5");
+        c4.setPostCode("55-222");
+        c4.setCity("Łęczna");
+        c4.setDescription("Najlepsze kino w Łęcznej");
+        c4.setTelephone("723723723");
+        c4.setEmail("leczna@cinemapro.com");
+        c4.setImgUrl("https://tul.imgix.net/content/article/rivoli-melbourne-cinema.jpg?auto=format,compress&w=740&h=525&fit=crop&crop=edges");
         c4.setVisible(true);
         
         Cinema c5 = new Cinema();
-        c5.setName("CinemaPro Legnicka");
-        c5.setStreet("Legnicka");
-        c5.setStreetNumber("15");
-        c5.setPostCode("11-222");
+        c5.setName("CinemaPro Psie Pole");
+        c5.setStreet("Bierutowska");
+        c5.setStreetNumber("35");
+        c5.setPostCode("51-322");
         c5.setCity("Wroclaw");
         c5.setDescription("Test description");
-        c5.setTelephone("71111222");
-        c5.setEmail("email4@email.com");
-        c5.setImgUrl("https://i.ytimg.com/vi/PjHumS-GVAo/hqdefault.jpg");
+        c5.setTelephone("788788731");
+        c5.setEmail("psiepole@cinemapro.com");
+        c5.setImgUrl("https://tul.imgix.net/content/article/sun-theatre-melbourne.jpg");
         c5.setVisible(true);
 
         Hall h1 = new Hall();
