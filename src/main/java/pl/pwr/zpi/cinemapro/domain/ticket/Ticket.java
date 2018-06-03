@@ -5,6 +5,7 @@ import pl.pwr.zpi.cinemapro.domain.seat.Seat;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -29,5 +30,6 @@ public class Ticket {
     private boolean paid;
     
     @Column (nullable = true)
+    @Min(0)
     private double price;
     }

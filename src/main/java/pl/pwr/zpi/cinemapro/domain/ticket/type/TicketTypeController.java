@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
@@ -19,15 +20,19 @@ public class TicketTypeController {
     @Autowired
     TicketTypeService ticketTypeService;
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<TicketType> getAllTicketTypes() {
         return ticketTypeService.findAll();
     }
+
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all/visible", method = RequestMethod.GET)
     public List<TicketType> getAllVisibleTicketTypes() {
         return ticketTypeService.findAllVisible();
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity getTicketTypeByID(@PathVariable(value = "id") UUID id) {
         TicketType ticketType = ticketTypeService.findById(id);
@@ -37,6 +42,7 @@ public class TicketTypeController {
         return ResponseEntity.ok(ticketType);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity addTicketType(@Valid @RequestBody @DTO(TicketTypeForm.class) TicketType ticketType, BindingResult result) {
         if (result.hasErrors()) {
@@ -46,6 +52,7 @@ public class TicketTypeController {
         return new ResponseEntity<>(ticketTypeService.save(ticketType), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteTicketType(@PathVariable(value = "id") UUID id) {
         TicketType ticketType = ticketTypeService.findById(id);

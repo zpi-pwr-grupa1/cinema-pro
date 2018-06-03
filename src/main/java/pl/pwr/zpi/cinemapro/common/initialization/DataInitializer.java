@@ -318,21 +318,6 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         h8.setCinema(c3);
         h8.setVisible(true);
 
-        Ticket t1 = new Ticket();
-        Seat seat = seats.iterator().next();
-        t1.setSeat(seat);
-        t1.setTicketType(tt1);
-
-        Ticket t2 = new Ticket();
-        seat = seats.iterator().next();
-        t2.setSeat(seat);
-        t2.setTicketType(tt2);
-
-        Ticket t3 = new Ticket();
-        seat = seats.iterator().next();
-        t3.setSeat(seat);
-        t3.setTicketType(tt3);
-
         Date todayDate = new Date();
         Calendar todayCalendar = Calendar.getInstance();
         todayCalendar.setTime(todayDate);
@@ -657,21 +642,67 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         Reservation r1 = new Reservation();
         r1.setShowing(s1);
-        Set<Ticket> tickets = new HashSet<>(Arrays.asList(t1));
+        Iterator<Seat> seatsIt = s1.getHall().getSeats().iterator();
+        Ticket t1 = new Ticket();
+        Seat seat = seatsIt.next();
+        t1.setSeat(seat);
+        t1.setTicketType(tt1);
+
+        Ticket t2 = new Ticket();
+        seat = seatsIt.next();
+        t2.setSeat(seat);
+        t2.setTicketType(tt2);
+
+        Set<Ticket> tickets = new HashSet<>(Arrays.asList(t1, t2));
         r1.setTickets(tickets);
         r1.setClient(cl1);
 
+        Reservation r2 = new Reservation();
+        r2.setShowing(s1);
+
+        Ticket t3 = new Ticket();
+        seat = seatsIt.next();
+        t3.setSeat(seat);
+        t3.setTicketType(tt3);
+
+        tickets = new HashSet<>(Arrays.asList(t3));
+        r2.setTickets(tickets);
+        r2.setClient(cl2);
+
+        Reservation r3 = new Reservation();
+        r3.setShowing(s2);
+        seatsIt = s2.getHall().getSeats().iterator();
+
+        Ticket t4 = new Ticket();
+        seat = seatsIt.next();
+        t4.setSeat(seat);
+        t4.setTicketType(tt1);
+
+        Ticket t5 = new Ticket();
+        seat = seatsIt.next();
+        t5.setSeat(seat);
+        t5.setTicketType(tt2);
+
+        Ticket t6 = new Ticket();
+        seat = seatsIt.next();
+        t6.setSeat(seat);
+        t6.setTicketType(tt3);
+
+        Set<Ticket> tickets2 = new HashSet<>(Arrays.asList(t4, t5, t6));
+        r3.setTickets(tickets2);
+        r3.setClient(cl3);
+
         groupRepository.saveAll(Lists.newArrayList(g1, g2));
-        clientRepository.saveAll(Lists.newArrayList(cl1));
+        clientRepository.saveAll(Lists.newArrayList(cl1, cl2, cl3));
 		movieRepository.saveAll(Lists.newArrayList(m1, m2, m3, m4, m5, m6, m7));
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3, c4, c5));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
         showingRepository.saveAll(Lists.newArrayList(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16,
                 s17, s18, s19, s20, s21, s22, s23, s24, s25, s26, s27, s28, s29, s30, s31, s32));
         ticketTypeRepository.saveAll(Lists.newArrayList(tt1, tt2, tt3));
-        ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3));
+        ticketRepository.saveAll(Lists.newArrayList(t1, t2, t3, t4, t5, t6));
         employeeRepository.saveAll(Lists.newArrayList(e1, e2, e3, e4, e5, e6, e7));
-        reservationRepository.saveAll(Lists.newArrayList(r1));
+        reservationRepository.saveAll(Lists.newArrayList(r1, r2, r3));
         adminRepository.saveAll(Lists.newArrayList(a1));
     }
 

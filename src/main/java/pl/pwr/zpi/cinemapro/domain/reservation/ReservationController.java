@@ -3,6 +3,7 @@ package pl.pwr.zpi.cinemapro.domain.reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -16,13 +17,11 @@ import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.showing.ShowingService;
 import pl.pwr.zpi.cinemapro.domain.ticket.AlternativeTicketForm;
 import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
-import pl.pwr.zpi.cinemapro.domain.ticket.TicketForm;
 import pl.pwr.zpi.cinemapro.domain.ticket.TicketService;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketType;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.TicketTypeService;
 import pl.pwr.zpi.cinemapro.domain.user.User;
 import pl.pwr.zpi.cinemapro.domain.user.UserRepository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -30,8 +29,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/api/reservation")
+@PreAuthorize("permitAll()")
 public class ReservationController {
 
     @Autowired

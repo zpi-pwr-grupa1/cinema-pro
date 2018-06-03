@@ -1,6 +1,5 @@
 package pl.pwr.zpi.cinemapro.domain.reservation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.pwr.zpi.cinemapro.domain.client.Client;
 import pl.pwr.zpi.cinemapro.domain.showing.Showing;
 import pl.pwr.zpi.cinemapro.domain.ticket.Ticket;
