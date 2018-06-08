@@ -1,5 +1,6 @@
 package pl.pwr.zpi.cinemapro.domain.employee;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.pwr.zpi.cinemapro.domain.ticket.type.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +20,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Employee> getAllEmployee() {
@@ -44,6 +48,7 @@ public class EmployeeController {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         employee.setVisible(true);
+        employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         employeeService.save(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }
