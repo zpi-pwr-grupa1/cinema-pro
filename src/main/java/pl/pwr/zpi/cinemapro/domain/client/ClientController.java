@@ -50,7 +50,7 @@ public class ClientController {
     }
 
     @PreAuthorize("hasAuthority('CLIENT')")
-    @RequestMapping(value ="get/my/reservations", method = RequestMethod.GET)
+    @RequestMapping(value ="/get/my/reservations", method = RequestMethod.GET)
     public ResponseEntity getReservations(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
