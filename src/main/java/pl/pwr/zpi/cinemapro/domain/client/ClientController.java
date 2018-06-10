@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.pwr.zpi.cinemapro.common.util.DTO;
 import pl.pwr.zpi.cinemapro.domain.reservation.Reservation;
+import pl.pwr.zpi.cinemapro.domain.user.User;
+import pl.pwr.zpi.cinemapro.domain.user.UserRepository;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,6 +30,9 @@ public class ClientController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PreAuthorize("permitAll()")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Client> getAllClients() {
@@ -40,6 +47,16 @@ public class ClientController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(client);
+    }
+
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @RequestMapping(value ="get/my/reservations", method = RequestMethod.GET)
+    public ResponseEntity getReservations(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        List<Reservation> reservations = clientService.getReservationsByClientId(user.getId());
+        return ResponseEntity.ok(reservations);
     }
 
     @PreAuthorize("permitAll()")
@@ -62,6 +79,7 @@ public class ClientController {
         clientService.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "DataIntegrityViolation")
     @ExceptionHandler(DataIntegrityViolationException.class)
