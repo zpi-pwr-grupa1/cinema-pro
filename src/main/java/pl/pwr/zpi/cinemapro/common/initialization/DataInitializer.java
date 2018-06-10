@@ -198,7 +198,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         m7.setRunTime(127);
         m7.setStoryline("Industrialist John Hammond and his bioengineering company, InGen, have created a theme park called Jurassic Park on Isla Nublar, a Costa Rican island, populated with cloned dinosaurs.");
         m7.setTitle("Jurassic Park");
-        m7.setImgURL("/assets/images/movies/godfather.jpg");
+        m7.setImgURL("/assets/images/movies/jurassic_park.jpg");
         m7.setVisible(true);
         m7.setGroups(Sets.newHashSet(g2));
 
@@ -621,20 +621,25 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         
         Client cl1 = new Client();
         cl1.setEmail("user1@email.com");
-        cl1.setPassword("password1");
         cl1.setBirthDate(new Date());
         cl1.setEmail("client@example.com");
         cl1.setPassword(bCryptPasswordEncoder.encode("haslo123"));
 
         Client cl2 = new Client();
-        cl2.setEmail("user2@email.com");
-        cl2.setPassword("password2");
+        cl2.setEmail("client2@example.com");
         cl2.setBirthDate(new Date());
+        cl2.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+
 
         Client cl3 = new Client();
-        cl3.setEmail("user3@email.com");
-        cl3.setPassword("password3");
+        cl3.setEmail("client3@example.com");
         cl3.setBirthDate(new Date());
+        cl3.setPassword(bCryptPasswordEncoder.encode("haslo123"));
+
+        Client cl4 = new Client();
+        cl4.setEmail("client4@example.com");
+        cl4.setBirthDate(new Date());
+        cl4.setPassword(bCryptPasswordEncoder.encode("haslo123"));
 
         Admin a1 = new Admin();
         a1.setEmail("admin@example.com");
@@ -693,7 +698,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         r3.setClient(cl3);
 
         groupRepository.saveAll(Lists.newArrayList(g1, g2));
-        clientRepository.saveAll(Lists.newArrayList(cl1, cl2, cl3));
+        clientRepository.saveAll(Lists.newArrayList(cl1, cl2, cl3, cl4));
 		movieRepository.saveAll(Lists.newArrayList(m1, m2, m3, m4, m5, m6, m7));
         cinemaRepository.saveAll(Lists.newArrayList(c1, c2, c3, c4, c5));
         hallRepository.saveAll(Lists.newArrayList(h1, h2, h3, h4, h5));
